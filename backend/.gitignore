@@ -1,0 +1,13 @@
+# Dependências (Nunca envie isso para o Git)
+node_modules/
+
+# Segurança: Ignora sua senha do MongoDB Atlas
+.env
+
+# Arquivos gerados pelo TypeScript e compilação
+dist/
+*.tsbuildinfo
+
+# Arquivos temporários do sistema e editores
+.vscode/
+.DS_Store
