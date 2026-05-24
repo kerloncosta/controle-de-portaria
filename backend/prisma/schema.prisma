@@ -6,6 +6,11 @@
 
 generator client {
   provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+generator client_custom {
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 

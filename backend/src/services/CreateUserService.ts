@@ -1,4 +1,4 @@
-import prisma from '../generated/prisma/index.js';
+import  prisma  from '../prisma/index.js'
 
 class CreateUserService {
   async execute(){
