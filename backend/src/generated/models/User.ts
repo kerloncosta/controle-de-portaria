@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  role: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  role: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -29,6 +39,8 @@ export type UserMinAggregateOutputType = {
   name: string | null
   cpf: string | null
   password: string | null
+  role: number | null
+  status: boolean | null
   createdAt: Date | null
 }
 
@@ -37,6 +49,8 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   cpf: string | null
   password: string | null
+  role: number | null
+  status: boolean | null
   createdAt: Date | null
 }
 
@@ -45,16 +59,28 @@ export type UserCountAggregateOutputType = {
   name: number
   cpf: number
   password: number
+  role: number
+  status: number
   createdAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  role?: true
+}
+
+export type UserSumAggregateInputType = {
+  role?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
   name?: true
   cpf?: true
   password?: true
+  role?: true
+  status?: true
   createdAt?: true
 }
 
@@ -63,6 +89,8 @@ export type UserMaxAggregateInputType = {
   name?: true
   cpf?: true
   password?: true
+  role?: true
+  status?: true
   createdAt?: true
 }
 
@@ -71,6 +99,8 @@ export type UserCountAggregateInputType = {
   name?: true
   cpf?: true
   password?: true
+  role?: true
+  status?: true
   createdAt?: true
   _all?: true
 }
@@ -113,6 +143,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -143,6 +185,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -152,8 +196,12 @@ export type UserGroupByOutputType = {
   name: string
   cpf: string
   password: string
+  role: number
+  status: boolean
   createdAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -181,6 +229,8 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   cpf?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.IntFilter<"User"> | number
+  status?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
@@ -189,6 +239,8 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -200,6 +252,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.IntFilter<"User"> | number
+  status?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }, "id" | "cpf">
 
@@ -208,10 +262,14 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -222,6 +280,8 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   cpf?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  role?: Prisma.IntWithAggregatesFilter<"User"> | number
+  status?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
@@ -230,6 +290,8 @@ export type UserCreateInput = {
   name: string
   cpf: string
   password: string
+  role?: number
+  status?: boolean
   createdAt?: Date | string
 }
 
@@ -238,6 +300,8 @@ export type UserUncheckedCreateInput = {
   name: string
   cpf: string
   password: string
+  role?: number
+  status?: boolean
   createdAt?: Date | string
 }
 
@@ -245,6 +309,8 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cpf?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -252,6 +318,8 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cpf?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -260,6 +328,8 @@ export type UserCreateManyInput = {
   name: string
   cpf: string
   password: string
+  role?: number
+  status?: boolean
   createdAt?: Date | string
 }
 
@@ -267,6 +337,8 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cpf?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -274,6 +346,8 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cpf?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -282,7 +356,13 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  role?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -290,6 +370,8 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -298,11 +380,29 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  role?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -316,6 +416,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   cpf?: boolean
   password?: boolean
+  role?: boolean
+  status?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -326,10 +428,12 @@ export type UserSelectScalar = {
   name?: boolean
   cpf?: boolean
   password?: boolean
+  role?: boolean
+  status?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "cpf" | "password" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "cpf" | "password" | "role" | "status" | "createdAt", ExtArgs["result"]["user"]>
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -339,6 +443,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     cpf: string
     password: string
+    role: number
+    status: boolean
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -736,6 +842,8 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly cpf: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly role: Prisma.FieldRef<"User", 'Int'>
+  readonly status: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     

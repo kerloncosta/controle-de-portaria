@@ -24,6 +24,8 @@ model User {
   name      String
   cpf       String   @unique
   password     String
+  role      Int     @default(1)
+  status    Boolean  @default(true)
   createdAt DateTime @default(now())
 
   @@map("users")
