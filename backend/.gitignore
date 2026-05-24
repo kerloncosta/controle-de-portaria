@@ -11,3 +11,4 @@ dist/
 # Arquivos temporários do sistema e editores
 .vscode/
 .DS_Store
+/src/generated/prisma
