@@ -4,15 +4,15 @@ import { ListUsersController } from "./controllers/ListUsersController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
-  fastify.get("/teste", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get("/test", async (request: FastifyRequest, reply: FastifyReply) => {
     return { hello: "world" };
   });
 
-  fastify.post("/user", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.post("/user/add", async (request: FastifyRequest, reply: FastifyReply) => {
     return new CreateUserController().handle(request, reply);
   });
 
-  fastify.get("/users", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get("/user/list", async (request: FastifyRequest, reply: FastifyReply) => {
     return new ListUsersController().handle(request, reply);
   });
 }
