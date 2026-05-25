@@ -6,6 +6,10 @@ const server = Fastify({
   logger: true,
 });
 
+server.setErrorHandler((error: Error, request, reply) => {
+  reply.status(400).send({ error: error.message });
+});
+
 const start = async () => {
 
   await server.register(cors);
