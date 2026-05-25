@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated"
@@ -15,18 +9,15 @@ generator client_custom {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  cpf       String   @unique
-  password     String
-  role      Int     @default(1)
-  status    Boolean  @default(true)
-  createdAt DateTime @default(now())
-
-  @@map("users")
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model employee {
+  id       String  @id(map: "pk_employee") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cpf      String  @unique @db.Char(11)
+  name     String  @db.VarChar(60)
+  password String  @db.VarChar(64)
+  role     Decimal @db.Decimal(1, 0)
 }

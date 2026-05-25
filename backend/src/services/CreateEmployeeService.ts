@@ -1,31 +1,30 @@
 import prisma from '../prisma/index.js';
 
-interface CreateUserProps {
+interface CreateEmployeeProps {
   name: string;
   cpf: string;
   password: string;
   role: number;
 }
 
-class CreateUserService {
-  async execute({name, cpf, password, role}: CreateUserProps) {
+class CreateEmployeeService {
+  async execute({name, cpf, password, role}: CreateEmployeeProps) {
     
     if (!name || !cpf || !password || role === undefined) {
       throw new Error("Preencha todos os campos obrigatórios");
     }
 
-    const user = await prisma.user.create({
+    const employee = await prisma.employee.create({
       data:{
         name,
         cpf,
         password,
         role,
-        status: true
       }
     })
 
-    return user;
+    return employee;
   }
 }
 
-export { CreateUserService };
+export { CreateEmployeeService };

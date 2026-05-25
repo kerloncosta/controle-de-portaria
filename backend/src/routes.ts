@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
-import { CreateUserController } from "./controllers/CreateUserController.js";
-import { ListUsersController } from "./controllers/ListUsersController.js";
-import { DeleteUserController } from "./controllers/DeleteUserController.js";
+import { CreateEmployeeController } from "./controllers/CreateEmployeeController.js";
+import { ListEmployeeController } from "./controllers/ListEmployeesController.js";
+import { DeleteEmployeeController } from "./controllers/DeleteEmployeeController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -9,15 +9,15 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return { hello: "world" };
   });
 
-  fastify.post("/user/add", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new CreateUserController().handle(request, reply);
+  fastify.post("/employee/add", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new CreateEmployeeController().handle(request, reply);
   });
 
-  fastify.get("/user/list", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new ListUsersController().handle(request, reply);
+  fastify.get("/employee/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListEmployeeController().handle(request, reply);
   });
 
-  fastify.delete("/user/delete", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new DeleteUserController().handle(request, reply);
+  fastify.delete("/employee/delete", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new DeleteEmployeeController().handle(request, reply);
   });
 }
