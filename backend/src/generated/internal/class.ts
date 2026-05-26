@@ -56,8 +56,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ngenerator client_custom {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.\nmodel employee {\n  id       String  @id(map: \"pk_employee\") @default(dbgenerated(\"gen_random_uuid()\")) @db.Uuid\n  cpf      String  @unique @db.Char(11)\n  name     String  @db.VarChar(60)\n  password String  @db.VarChar(64)\n  role     Decimal @db.Decimal(1, 0)\n}\n",
-  "inlineSchemaHash": "0363321cb23e98b32a397e6ab8f7ddfab5d69f992321e96c57ec3f87809fff99",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ngenerator client_custom {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\n/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.\nmodel employee {\n  id       String  @id(map: \"pk_employee\") @default(dbgenerated(\"gen_random_uuid()\")) @db.Uuid\n  cpf      String  @unique @db.Char(11)\n  name     String  @db.VarChar(60)\n  password String  @db.VarChar(64)\n  role     Decimal @db.Decimal(1, 0)\n}\n",
+  "inlineSchemaHash": "f7fe8e71ebb9178cdcf3164246c6400e07298480e44934a4da094bea3b167152",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
