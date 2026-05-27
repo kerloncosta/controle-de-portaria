@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, FormEvent } from 'react'
-import { FiTrash2, FiEdit2} from 'react-icons/fi';
+import { FiTrash2, FiEdit2, FiSearch} from 'react-icons/fi';
 import {api} from './services/api'
 
 interface EmployeeProps {
@@ -86,8 +86,37 @@ export default function App() {
       if(cpfRef.current) cpfRef.current.value = employee.cpf;
       if(passwordRef.current) passwordRef.current.value = '';
       if(roleRef.current) roleRef.current.value = employee.role.toString();
+  }
 
+  async function handleFindByCpf() {
+    const cpfTyped = cpfRef.current?.value;
+
+    if(!cpfTyped){
+      alert("Digite um CPF para buscar.");
+      return;
     }
+
+    try{
+      const response = await api.get(`/employee/find-by-cpf/${cpfTyped}`);
+      const employee = response.data;
+      
+      if(nameRef.current) nameRef.current.value = employee.name;
+      if(passwordRef.current) passwordRef.current.value = '';
+      if(roleRef.current) roleRef.current.value = employee.role.toString();
+
+      setEditingCpf(employee.cpf);
+
+    }catch(error: any) {
+      console.error("Erro ao buscar:", error);
+
+      if (error.response?.status === 404) {
+      alert("CPF não encontrado no sistema.");
+      } else {
+      alert("Erro na conexão ao buscar o CPF.");
+      }
+      setEditingCpf(null);
+    }
+  }
 
 
   return (
@@ -109,12 +138,21 @@ export default function App() {
 
       <div className="flex flex-col gap-1">
         <label className="font-medium text-white">CPF:</label>
+          <div className="flex gap-2">
+
         <input 
           type="text"  
           placeholder="000.000.000-00"  
           className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"
-          ref={cpfRef}  
+          ref={cpfRef} 
         />
+
+        <button type="button"
+        onClick={handleFindByCpf}
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md font-bold transition-colors"
+        ><FiSearch size={18} /></button>
+
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
