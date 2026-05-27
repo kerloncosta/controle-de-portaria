@@ -6,20 +6,29 @@ const server = Fastify({
   logger: true,
 });
 
-server.setErrorHandler((error: Error, request, reply) => {
-  reply.status(400).send({ error: error.message });
-});
-
 const start = async () => {
 
-  await server.register(cors);
+  await server.register(cors, {
+    origin: '*',
+  });
+
   await server.register(routes);
 
-    try{
-      await server.listen({ port: 3333}); //, host: '0.0.0.0' colocar isso do para abrir para acesso a rede
-    }catch(err){
-      process.exit(1);
-    }
-  }
+  server.setErrorHandler((error: Error, request, reply) => {
+    reply.status(400).send({ error: error.message });
+  });
 
-  start();
+  try {
+    await server.listen({
+      port: 3333,
+      host: '0.0.0.0',
+    });
+
+    console.log('Servidor rodando');
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
+
+start();
