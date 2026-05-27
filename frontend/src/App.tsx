@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, FormEvent } from 'react'
 import { FiTrash2, FiEdit2} from 'react-icons/fi';
 import {api} from './services/api'
 
@@ -12,6 +12,11 @@ interface EmployeeProps {
 export default function App() {
 
   const [employees, setEmployees] = useState<EmployeeProps[]>([])
+  const nameRef = useRef<HTMLInputElement | null>(null)
+  const cpfRef = useRef<HTMLInputElement | null>(null)
+  const passwordRef = useRef<HTMLInputElement | null>(null)
+  const roleRef = useRef<HTMLSelectElement | null>(null)
+
 
     useEffect(() => {
       loadEmployees();
@@ -22,20 +27,65 @@ export default function App() {
         setEmployees(response.data)
     }
 
+    async function handleCreateEmployee(event: FormEvent) {
+      event.preventDefault();
+
+      if(!nameRef.current || !cpfRef.current || !passwordRef.current || !roleRef.current) return;
+      
+      try {
+      
+      const response = await api.post('/employee/add', {
+        name: nameRef.current.value,
+        cpf: cpfRef.current.value,
+        password: passwordRef.current.value,
+        role: parseInt(roleRef.current.value)
+      });
+
+      setEmployees(allEmployees => [...allEmployees, response.data]);
+
+    console.log("Salvo com sucesso:", response.data); 
+    loadEmployees();
+    handleCancel(); 
+
+    } catch (error) {
+      console.error("Erro ao cadastrar funcionário:", error);
+      alert("Não foi possível cadastrar. Verifique a conexão ou os dados.");
+    }
+  
+    }
+
+    function handleCancel() {
+      nameRef.current!.value = '';
+      cpfRef.current!.value = '';
+      passwordRef.current!.value = '';
+      roleRef.current!.value = '1';
+    }
+
+    async function handleDeleteEmployee(cpf: string) {
+      try{
+        await api.delete(`/employee/delete/${cpf}`);
+        loadEmployees();
+      }catch(error) {
+        console.error("Erro ao deletar funcionário:", error);
+        alert("Não foi possível deletar. Verifique a conexão ou os dados.");
+      }
+    }
+
 
   return (
     <div className="w-full min-h-screen bg-green-950 flex justify-center px-4">
   <main className="my-10 w-full md:max-w-2xl">
     <h1 className="text-4xl font-medium text-white">Funcionários</h1>
 
-    <form className="flex flex-col my-6 gap-6">
+    <form className="flex flex-col my-6 gap-6" onSubmit={handleCreateEmployee} onReset={handleCancel}>
       
       <div className="flex flex-col gap-1">
         <label className="font-medium text-white">Nome:</label>
         <input 
           type="text"  
           placeholder="Digite o nome completo..."  
-          className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"  
+          className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"
+          ref={nameRef}  
         />
       </div>
 
@@ -44,7 +94,8 @@ export default function App() {
         <input 
           type="text"  
           placeholder="000.000.000-00"  
-          className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"  
+          className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"
+          ref={cpfRef}  
         />
       </div>
 
@@ -52,9 +103,10 @@ export default function App() {
         
         <div className="flex flex-col gap-1">
           <label className="font-medium text-white">Permissões:</label>
-          <select className="w-full p-2 rounded-md bg-white text-gray-900 outline-none">
+          <select className="w-full p-2 rounded-md bg-white text-gray-900 outline-none" ref={roleRef}>
             <option value="1">Operador</option>
             <option value="2">Administrador</option>
+
           </select>
 
           <input
@@ -71,6 +123,7 @@ export default function App() {
             type="password"  
             placeholder="******"  
             className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"  
+            ref={passwordRef}
           />
 
           <input
@@ -115,13 +168,13 @@ export default function App() {
 
     
     <div className="flex gap-2">
-      <button className="bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 transition-colors">
-        <FiEdit2 size={18} />
-      </button>
+      <button className="bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 transition-colors"
+      //onClick={() => handleEditEmployee(employee.cpf)}
+      ><FiEdit2 size={18} /></button>
 
-      <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors">
-        <FiTrash2 size={18} />
-      </button>
+      <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors"
+      onClick={() => handleDeleteEmployee(employee.cpf)}
+      ><FiTrash2 size={18} /></button>
     </div>
   
   </article>

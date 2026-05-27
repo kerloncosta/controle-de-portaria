@@ -10,6 +10,7 @@ const start = async () => {
 
   await server.register(cors, {
     origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
   await server.register(routes);
