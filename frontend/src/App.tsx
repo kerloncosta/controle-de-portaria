@@ -12,6 +12,8 @@ interface EmployeeProps {
 export default function App() {
 
   const [employees, setEmployees] = useState<EmployeeProps[]>([])
+  const [editingCpf, setEditingCpf] = useState<string | null>(null);
+
   const nameRef = useRef<HTMLInputElement | null>(null)
   const cpfRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
@@ -34,16 +36,22 @@ export default function App() {
       
       try {
       
-      const response = await api.post('/employee/add', {
+      const payload =  {
         name: nameRef.current.value,
         cpf: cpfRef.current.value,
         password: passwordRef.current.value,
         role: parseInt(roleRef.current.value)
-      });
+      };
 
-      setEmployees(allEmployees => [...allEmployees, response.data]);
+      if(editingCpf) {
+        await api.put(`/employee/update/${editingCpf}`, payload);
 
-    console.log("Salvo com sucesso:", response.data); 
+      }else{
+        const response = await api.post('/employee/add', payload);
+        setEmployees(allEmployees => [...allEmployees, response.data]);
+        console.log("Salvo com sucesso:", response.data); 
+      }
+  
     loadEmployees();
     handleCancel(); 
 
@@ -51,14 +59,14 @@ export default function App() {
       console.error("Erro ao cadastrar funcionário:", error);
       alert("Não foi possível cadastrar. Verifique a conexão ou os dados.");
     }
-  
-    }
+  }
 
     function handleCancel() {
       nameRef.current!.value = '';
       cpfRef.current!.value = '';
       passwordRef.current!.value = '';
       roleRef.current!.value = '1';
+      setEditingCpf(null);
     }
 
     async function handleDeleteEmployee(cpf: string) {
@@ -69,6 +77,16 @@ export default function App() {
         console.error("Erro ao deletar funcionário:", error);
         alert("Não foi possível deletar. Verifique a conexão ou os dados.");
       }
+    }
+
+    function handleEditEmployeeClick(employee: any) {
+      setEditingCpf(employee.cpf);
+      
+      if(nameRef.current) nameRef.current.value = employee.name;
+      if(cpfRef.current) cpfRef.current.value = employee.cpf;
+      if(passwordRef.current) passwordRef.current.value = '';
+      if(roleRef.current) roleRef.current.value = employee.role.toString();
+
     }
 
 
@@ -111,8 +129,8 @@ export default function App() {
 
           <input
           type="submit"
-          value="cadastrar"
-          className="cursor-pointer w-full p-2 rounded-md bg-green-600 mt-5"
+          value={editingCpf ? "Atualizar" : "Cadastrar"}
+          className={`cursor-pointer w-full p-2 rounded-md mt-5 text-white font-bold ${editingCpf ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'}`}
           />
           
         </div>
@@ -169,7 +187,7 @@ export default function App() {
     
     <div className="flex gap-2">
       <button className="bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 transition-colors"
-      //onClick={() => handleEditEmployee(employee.cpf)}
+      onClick={() => handleEditEmployeeClick(employee)}
       ><FiEdit2 size={18} /></button>
 
       <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors"
