@@ -4,10 +4,10 @@ import { DeleteEmployeeService } from '../services/DeleteEmployeeService.js';
 class DeleteEmployeeController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
 
-    const { cpf } = request.params as { cpf: string };
+    const { id } = request.params as { id: string };
     const employeeService = new DeleteEmployeeService();
 
-    const employee = await employeeService.execute({ cpf});
+    const employee = await employeeService.execute({ id });
 
     reply.send(employee);
   }

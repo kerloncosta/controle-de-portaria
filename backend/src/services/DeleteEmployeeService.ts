@@ -1,19 +1,19 @@
 import prisma from '../prisma/index.js';
 
 interface DeleteEmployeePromps{
-  cpf: string;
+  id: string;
 }
 
 class DeleteEmployeeService {
-  async execute({ cpf }: DeleteEmployeePromps){
+  async execute({ id }: DeleteEmployeePromps){
 
-    if(!cpf){
-      throw new Error("Informe o CPF do usuário a ser deletado");
+    if(!id){
+      throw new Error("Informe o ID do usuário a ser deletado");
     }
 
     const findEmployee = await prisma.employee.findFirst({
       where: {
-        cpf: cpf
+        id: id
       }
     })
 
@@ -23,7 +23,7 @@ class DeleteEmployeeService {
 
     await prisma.employee.delete({
       where: {
-        cpf: findEmployee.cpf
+        id: findEmployee.id
       }
     })
 

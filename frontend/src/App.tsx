@@ -12,7 +12,7 @@ interface EmployeeProps {
 export default function App() {
 
   const [employees, setEmployees] = useState<EmployeeProps[]>([])
-  const [editingCpf, setEditingCpf] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const nameRef = useRef<HTMLInputElement | null>(null)
   const cpfRef = useRef<HTMLInputElement | null>(null)
@@ -32,19 +32,37 @@ export default function App() {
     async function handleCreateEmployee(event: FormEvent) {
       event.preventDefault();
 
-      if(!nameRef.current || !cpfRef.current || !passwordRef.current || !roleRef.current) return;
+      const name = nameRef.current?.value;
+      const cpf = cpfRef.current?.value;
+      const password = passwordRef.current?.value;
+      const role = roleRef.current?.value;
+
+      if (!name || !cpf || !role) {
+        alert("Nome, CPF e Permissão são obrigatórios.");
+        return;
+      }
+
+      if (!editingId && !password) {
+        alert("A senha é obrigatória para cadastrar um novo funcionário.");
+        return;
+      }
+
       
       try {
       
-      const payload =  {
-        name: nameRef.current.value,
-        cpf: cpfRef.current.value,
-        password: passwordRef.current.value,
-        role: parseInt(roleRef.current.value)
+      const payload: any =  {
+        name: name,
+        cpf: cpf,
+        role: parseInt(role)
       };
 
-      if(editingCpf) {
-        await api.put(`/employee/update/${editingCpf}`, payload);
+      if (password) {
+        payload.password = password;
+      }
+
+      if(editingId) {
+        await api.put(`/employee/update/${editingId}`, payload);
+        alert("Funcionário atualizado com sucesso.");
 
       }else{
         const response = await api.post('/employee/add', payload);
@@ -66,12 +84,12 @@ export default function App() {
       cpfRef.current!.value = '';
       passwordRef.current!.value = '';
       roleRef.current!.value = '1';
-      setEditingCpf(null);
+      setEditingId(null);
     }
 
-    async function handleDeleteEmployee(cpf: string) {
+    async function handleDeleteEmployee(id: string) {
       try{
-        await api.delete(`/employee/delete/${cpf}`);
+        await api.delete(`/employee/delete/${id}`);
         loadEmployees();
       }catch(error) {
         console.error("Erro ao deletar funcionário:", error);
@@ -80,8 +98,8 @@ export default function App() {
     }
 
     function handleEditEmployeeClick(employee: any) {
-      setEditingCpf(employee.cpf);
-      
+      setEditingId(employee.id);
+
       if(nameRef.current) nameRef.current.value = employee.name;
       if(cpfRef.current) cpfRef.current.value = employee.cpf;
       if(passwordRef.current) passwordRef.current.value = '';
@@ -104,7 +122,7 @@ export default function App() {
       if(passwordRef.current) passwordRef.current.value = '';
       if(roleRef.current) roleRef.current.value = employee.role.toString();
 
-      setEditingCpf(employee.cpf);
+      setEditingId(employee.id);
 
     }catch(error: any) {
       console.error("Erro ao buscar:", error);
@@ -114,7 +132,7 @@ export default function App() {
       } else {
       alert("Erro na conexão ao buscar o CPF.");
       }
-      setEditingCpf(null);
+      setEditingId(null);
     }
   }
 
@@ -167,8 +185,8 @@ export default function App() {
 
           <input
           type="submit"
-          value={editingCpf ? "Atualizar" : "Cadastrar"}
-          className={`cursor-pointer w-full p-2 rounded-md mt-5 text-white font-bold ${editingCpf ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'}`}
+          value={editingId ? "Atualizar" : "Cadastrar"}
+          className={`cursor-pointer w-full p-2 rounded-md mt-5 text-white font-bold ${editingId ? 'bg-blue-600 hover:bg-blue-700' : 'bg-green-600 hover:bg-green-700'}`}
           />
           
         </div>
@@ -229,7 +247,7 @@ export default function App() {
       ><FiEdit2 size={18} /></button>
 
       <button className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors"
-      onClick={() => handleDeleteEmployee(employee.cpf)}
+      onClick={() => handleDeleteEmployee(employee.id)}
       ><FiTrash2 size={18} /></button>
     </div>
   

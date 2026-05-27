@@ -20,7 +20,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new ListEmployeeController().handle(request, reply);
   });
 
-  fastify.delete("/employee/delete/:cpf", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.delete("/employee/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new DeleteEmployeeController().handle(request, reply);
   });
 
@@ -28,7 +28,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new FindEmployeeByCpfController().handle(request, reply);
   });
 
-  fastify.put("/employee/update/:cpf", async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.put("/employee/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new UpdateEmployeeController().handle(request, reply);
   });
 
