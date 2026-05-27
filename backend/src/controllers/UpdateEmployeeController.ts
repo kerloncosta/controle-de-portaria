@@ -1,11 +1,14 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
 import { UpdateEmployeeService } from '../services/UpdateEmployeeService.js';
+import { validateCpfFormat, validatePassword, validateRole } from '../utils/validators.js';
 
 class UpdateEmployeeController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
     const { id } = request.params as { id: string };
     const {name, cpf, password, role} = request.body as { name?: string; cpf?: string; password?: string; role?: number };
   
+
+
 
 const updateEmployeeService = new UpdateEmployeeService();
 
