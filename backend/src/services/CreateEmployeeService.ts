@@ -1,4 +1,5 @@
 import prisma from '../prisma/index.js';
+import { hashPassword } from '../utils/hashPassword.js';
 
 interface CreateEmployeeProps {
   name: string;
@@ -14,11 +15,23 @@ class CreateEmployeeService {
       throw new Error("Preencha todos os campos obrigatórios");
     }
 
+    const existingEmployee = await prisma.employee.findUnique({
+      where: {
+        cpf,
+      }
+    })
+
+    if (existingEmployee) {
+      throw new Error("Já existe um funcionário cadastrado com esse CPF");
+    }
+
+    const hashedPassword = await hashPassword(password);
+
     const employee = await prisma.employee.create({
       data:{
         name,
         cpf,
-        password,
+        password: hashedPassword,
         role,
       }
     })

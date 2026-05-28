@@ -42,13 +42,13 @@ export default function App() {
 
       const cpf = rawCpf ? rawCpf.replace(/\D/g, '') : '';
       
-      if (!name || !cpf || !role) {
-        alert("Nome, CPF e Permissão são obrigatórios.");
+      if (!name || !cpf) {
+        alert("Nome e CPF são obrigatórios.");
         return;
       }
 
       if (!validateCpfFormat(cpf)) {
-        alert("Por favor, digite un CPF válido.");
+        alert("Por favor, digite um CPF válido.");
         return;
       }
 
@@ -68,7 +68,7 @@ export default function App() {
       const payload: any =  {
         name: name,
         cpf: cpf,
-        role: parseInt(role)
+        role: parseInt(role || '1'),
       };
 
       if (password) {
@@ -249,14 +249,14 @@ export default function App() {
       
       <div className="flex flex-col gap-1">
         <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">CPF</span>
-        <p className="text-gray-900 font-semibold">{employee.cpf}</p>
+        <p className="text-gray-900 font-semibold">{maskCpf(employee.cpf)}</p>
       </div>
 
       <div className="flex flex-col gap-1">
         <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">Cargo</span>
-        <span className={`px-2 py-0.5 rounded text-sm font-medium w-max ${
+        <span className={`px-2 py-0.5 rounded text-xs font-medium w-max ${
           employee.role == 1 ? 'text-blue-700 bg-blue-100'  : 'text-green-700 bg-green-100' }`}>
-          {employee.role == 1 ? 'Operador' : 'Administrador'}
+          {employee.role == 1 ? 'Operador' : 'Admin'}
         </span>
       </div>
 

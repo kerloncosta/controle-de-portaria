@@ -1,4 +1,5 @@
 import prisma from '../prisma/index.js';
+import { hashPassword } from '../utils/hashPassword.js';
 
 interface UpdateEmployeeProps{
   id: string;
@@ -21,6 +22,12 @@ class UpdateEmployeeService {
       throw new Error('Funcionário não encontrado.');
     }
 
+    let hashedPassword = employeeexists.password;
+
+    if(password){
+      hashedPassword = await hashPassword(password);
+    }
+
     const updateEmployee = await prisma.employee.update({
       where: {
         id
@@ -28,7 +35,7 @@ class UpdateEmployeeService {
       data:{
         name: name ?? employeeexists.name,
         cpf: cpf ?? employeeexists.cpf,
-        password: password ?? employeeexists.password,
+        password: hashedPassword,
         role: role ?? employeeexists.role,
       }
     });
