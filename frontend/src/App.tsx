@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef, FormEvent } from 'react'
 import { FiTrash2, FiEdit2, FiSearch} from 'react-icons/fi';
 import {api} from './services/api'
+import { validateCpfFormat, validatePassword} from './Utils/validators';
+import { maskCpf } from './Utils/masks';
+
 
 interface EmployeeProps {
   id: string;
@@ -33,17 +36,29 @@ export default function App() {
       event.preventDefault();
 
       const name = nameRef.current?.value;
-      const cpf = cpfRef.current?.value;
+      const rawCpf = cpfRef.current?.value;
       const password = passwordRef.current?.value;
       const role = roleRef.current?.value;
 
+      const cpf = rawCpf ? rawCpf.replace(/\D/g, '') : '';
+      
       if (!name || !cpf || !role) {
         alert("Nome, CPF e Permissão são obrigatórios.");
         return;
       }
 
+      if (!validateCpfFormat(cpf)) {
+        alert("Por favor, digite un CPF válido.");
+        return;
+      }
+
       if (!editingId && !password) {
         alert("A senha é obrigatória para cadastrar um novo funcionário.");
+        return;
+      }
+
+      if (password && !validatePassword(password)) {
+        alert("A senha deve ter no mínimo 6 caracteres, 1 número e 1 letra maiúscula.");
         return;
       }
 
@@ -73,9 +88,15 @@ export default function App() {
     loadEmployees();
     handleCancel(); 
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao cadastrar funcionário:", error);
-      alert("Não foi possível cadastrar. Verifique a conexão ou os dados.");
+
+      if(error.response && error.response.data && error.response.data.error){
+        alert(error.response.data.error);
+      }else{
+        alert("Não foi possível cadastrar. Verifique a conexão ou os dados.");
+      }
+    
     }
   }
 
@@ -163,6 +184,7 @@ export default function App() {
           placeholder="000.000.000-00"  
           className="w-full p-2 rounded-md bg-white text-gray-900 outline-none"
           ref={cpfRef} 
+          onChange={(e) => { e.target.value = maskCpf(e.target.value) }}
         />
 
         <button type="button"
