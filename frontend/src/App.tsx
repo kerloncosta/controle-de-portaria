@@ -240,7 +240,7 @@ export default function App() {
 
     <section className="flex flex-col gap-4 mt-6">
         
-        {employees.map((employee) => (
+        {employees.filter((employee) => employee.id !== editingId).map((employee) => (
   <article 
     key={employee.id}
     className="w-full bg-white p-4 rounded-md flex flex-row justify-between items-center shadow-sm hover:scale-[1.02] transition-all duration-200"
