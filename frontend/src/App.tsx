@@ -129,19 +129,20 @@ export default function App() {
 
   async function handleFindByCpf() {
     const cpfTyped = cpfRef.current?.value;
+    const CleanCpf = cpfTyped ? cpfTyped.replace(/\D/g, '') : '';
 
-    if(!cpfTyped){
+    if(!CleanCpf){
       alert("Digite um CPF para buscar.");
       return;
     }
 
-    if (!validateCpfFormat(cpfTyped)) {
+    if (!validateCpfFormat(CleanCpf)) {
       alert("Por favor, digite um CPF válido.");
       return;
     }
 
     try{
-      const response = await api.get(`/employee/find-by-cpf/${cpfTyped}`);
+      const response = await api.get(`/employee/find-by-cpf/${CleanCpf}`);
       const employee = response.data;
       
       if(nameRef.current) nameRef.current.value = employee.name;
