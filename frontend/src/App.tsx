@@ -135,6 +135,11 @@ export default function App() {
       return;
     }
 
+    if (!validateCpfFormat(cpfTyped)) {
+      alert("Por favor, digite um CPF válido.");
+      return;
+    }
+
     try{
       const response = await api.get(`/employee/find-by-cpf/${cpfTyped}`);
       const employee = response.data;
@@ -148,10 +153,10 @@ export default function App() {
     }catch(error: any) {
       console.error("Erro ao buscar:", error);
 
-      if (error.response?.status === 404) {
-      alert("CPF não encontrado no sistema.");
-      } else {
-      alert("Erro na conexão ao buscar o CPF.");
+      if (error.response && error.response.data && error.response.data.error) {
+        alert("CPF não encontrado no sistema.");
+      }else{
+        alert("Erro na conexão ao buscar o CPF.");
       }
       setEditingId(null);
     }
