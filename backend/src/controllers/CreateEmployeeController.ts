@@ -19,10 +19,14 @@ class CreateEmployeeController {
     }
 
     const service = new CreateEmployeeService();
+    try{
+      const employee = await service.execute({ name, cpf, password, role});
+      return reply.status(201).send(employee);
 
-    const employee = await service.execute({ name, cpf, password, role});
-
-    return reply.status(201).send(employee);
+    }catch(error){
+      return reply.status(400).send({ error: (error as Error).message });
+    }
+    
   }
 }
 
