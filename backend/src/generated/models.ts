@@ -9,4 +9,6 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/employee.js'
+export type * from './models/Manufacturer.js'
+export type * from './models/VehicleModel.js'
 export type * from './commonInputTypes.js'

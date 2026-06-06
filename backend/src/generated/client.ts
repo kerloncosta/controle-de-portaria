@@ -49,3 +49,13 @@ path.join(process.cwd(), "src/generated/query_engine-windows.dll.node")
  * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */
 export type employee = Prisma.employeeModel
+/**
+ * Model Manufacturer
+ * 
+ */
+export type Manufacturer = Prisma.ManufacturerModel
+/**
+ * Model VehicleModel
+ * 
+ */
+export type VehicleModel = Prisma.VehicleModelModel

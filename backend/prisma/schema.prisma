@@ -22,3 +22,20 @@ model employee {
   password String  @db.VarChar(64)
   role     Decimal @db.Decimal(1, 0)
 }
+
+model Manufacturer {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(30)
+  vehicleModels VehicleModel[] 
+
+  @@map("manufacturer")
+}
+
+model VehicleModel {
+  id              Int          @id @default(autoincrement())
+  name            String       @db.VarChar(30)
+  manufacturer_id Int
+  manufacturer    Manufacturer @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("vehicle_model")
+}
