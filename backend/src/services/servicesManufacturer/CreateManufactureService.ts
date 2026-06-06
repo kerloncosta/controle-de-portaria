@@ -1,7 +1,7 @@
 import prisma from '../../prisma/index.js';
 
 
-class CreateManufacturesService {
+class CreateManufacturerService {
 
   async execute(name: string){
 
@@ -10,14 +10,14 @@ class CreateManufacturesService {
     }
 
 
-    const manufacture = await prisma.manufacturer.create({
+    const manufacturer = await prisma.manufacturer.create({
       data: {
         name: name
       }
     });
 
-    return manufacture;
+    return manufacturer;
   }
 }
 
-export { CreateManufacturesService };
+export { CreateManufacturerService };

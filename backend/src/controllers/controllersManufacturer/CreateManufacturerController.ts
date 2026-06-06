@@ -1,5 +1,5 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
-import { CreateManufacturesService } from '../../services/servicesManufacturer/CreateManufactureService.js';
+import { CreateManufacturerService } from '../../services/servicesManufacturer/CreateManufactureService.js';
 
 class CreateManufacturerController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
@@ -8,7 +8,7 @@ class CreateManufacturerController {
 
     try {
 
-      const manufacturerService = new CreateManufacturesService();
+      const manufacturerService = new CreateManufacturerService();
       const manufacturer = await manufacturerService.execute(name);
 
       return reply.status(201).send(manufacturer);
