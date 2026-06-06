@@ -1,6 +1,6 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
-import {CreateEmployeeService} from '../services/CreateEmployeeService.js';
-import {validateCpfFormat, validateRole, validatePassword} from '../utils/validators.js';
+import {CreateEmployeeService} from '../../services/servicesEmployee/CreateEmployeeService.js';
+import {validateCpfFormat, validateRole, validatePassword} from '../../utils/validators.js';
 
 class CreateEmployeeController {
   async handle(request: FastifyRequest, reply: FastifyReply) {

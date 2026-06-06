@@ -1,5 +1,5 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
-import { ListEmployeeService } from '../services/ListEmployeesService.js';
+import { ListEmployeeService } from '../../services/servicesEmployee/ListEmployeesService.js';
 
 class ListEmployeeController {
   async handle(request: FastifyRequest, reply: FastifyReply) {

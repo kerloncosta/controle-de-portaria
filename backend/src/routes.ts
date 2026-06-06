@@ -1,10 +1,10 @@
 import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
 
-import { CreateEmployeeController } from "./controllers/CreateEmployeeController.js";
-import { ListEmployeeController } from "./controllers/ListEmployeesController.js";
-import { DeleteEmployeeController } from "./controllers/DeleteEmployeeController.js";
-import { FindEmployeeByCpfController } from "./controllers/FindEmployeeByCpfController.js";
-import {UpdateEmployeeController} from "./controllers/UpdateEmployeeController.js";
+import { CreateEmployeeController } from "./controllers/controllersEmployee/CreateEmployeeController.js";
+import { ListEmployeeController } from "./controllers/controllersEmployee/ListEmployeesController.js";
+import { DeleteEmployeeController } from "./controllers/controllersEmployee/DeleteEmployeeController.js";
+import { FindEmployeeByCpfController } from "./controllers/controllersEmployee/FindEmployeeByCpfController.js";
+import {UpdateEmployeeController} from "./controllers/controllersEmployee/UpdateEmployeeController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 

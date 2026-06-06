@@ -1,5 +1,5 @@
-import prisma from '../prisma/index.js';
-import { hashPassword } from '../utils/hashPassword.js';
+import prisma from '../../prisma/index.js';
+import { hashPassword } from '../../utils/hashPassword.js';
 
 interface CreateEmployeeProps {
   name: string;

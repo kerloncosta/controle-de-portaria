@@ -1,5 +1,5 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
-import {FindEmployeeByCpfService} from '../services/FindEmployeeByCpfService.js';
+import {FindEmployeeByCpfService} from '../../services/servicesEmployee/FindEmployeeByCpfService.js';
 
 class FindEmployeeByCpfController {
   async handle(request: FastifyRequest, reply: FastifyReply) {

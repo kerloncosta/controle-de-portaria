@@ -1,4 +1,4 @@
-import prisma from '../prisma/index.js';
+import prisma from '../../prisma/index.js';
 
 class ListEmployeeService {
   async  execute() {
