@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FiUsers, FiLogOut } from 'react-icons/fi';
+import { FiUsers, FiLogOut, FiBox ,FiTruck  } from 'react-icons/fi';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -18,6 +18,24 @@ export function Dashboard() {
             className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
           >
             <FiUsers size={20} /> Funcionários
+          </button>
+        </nav>
+
+        <nav className="flex-1 p-4 flex flex-col gap-2">
+          <button 
+            onClick={() => navigate('/dashboard/fabricantes')}
+            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
+          >
+            <FiBox  size={20} /> Fabricantes
+          </button>
+        </nav>
+
+        <nav className="flex-1 p-4 flex flex-col gap-2">
+          <button 
+            onClick={() => navigate('/dashboard/modelos-veiculos')}
+            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
+          >
+            <FiTruck  size={20} /> Modelos de Veículos
           </button>
         </nav>
 

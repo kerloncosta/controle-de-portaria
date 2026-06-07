@@ -1,7 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
+
 import { Employees } from './pages/Employees';
+import { Manufacturers } from './pages/Manufacturer';
+
 
 export function App() {
   return (
@@ -18,7 +22,7 @@ export function App() {
           } />
           
           <Route path="funcionarios" element={<Employees />} />
-
+          <Route path="fabricantes" element={<Manufacturers />} />
         </Route>
 
         
