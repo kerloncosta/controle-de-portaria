@@ -65,7 +65,7 @@ export function Manufacturers() {
       loadManufacturers();
     } catch (error) {
       console.error("Erro ao deletar:", error);
-      alert("Não foi possível deletar. Esta fabricante pode estar vinculada a um modelo.");
+      alert("Não foi possível deletar. Este fabricante pode estar vinculada a um modelo.");
     }
   }
 
