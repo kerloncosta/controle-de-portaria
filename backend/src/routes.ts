@@ -16,6 +16,7 @@ import { UpdateManufacturerController } from "./controllers/controllersManufactu
 // Importing controllers for VehicleModel
 import { CreateVehicleModelController } from "./controllers/controllersVehicleModel/CreateVehicleModelController.js";
 import { DeleteVehicleModelController } from "./controllers/controllersVehicleModel/DeleteVehicleModelController.js";
+import { ListVehicleModelController } from "./controllers/controllersVehicleModel/ListVehicleModelController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -71,6 +72,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
   fastify.delete("/vehicle-model/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new DeleteVehicleModelController().handle(request, reply);
+  });
+
+  fastify.get("/vehicle-model/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListVehicleModelController().handle(request, reply);
   });
 
 }
