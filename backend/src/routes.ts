@@ -17,14 +17,17 @@ import { UpdateManufacturerController } from "./controllers/controllersManufactu
 import { CreateVehicleModelController } from "./controllers/controllersVehicleModel/CreateVehicleModelController.js";
 import { DeleteVehicleModelController } from "./controllers/controllersVehicleModel/DeleteVehicleModelController.js";
 import { ListVehicleModelController } from "./controllers/controllersVehicleModel/ListVehicleModelController.js";
+import { UpdateVehicleModelController } from "./controllers/controllersVehicleModel/UpdateVehicleModelController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
+
+  // Test route ---------------------------------------------------
 
   fastify.get("/test", async (request: FastifyRequest, reply: FastifyReply) => {
     return { hello: "world" };
   });
 
-  // Employee routes
+  // Employee routes ---------------------------------------------------
 
   fastify.post("/employee/add", async (request: FastifyRequest, reply: FastifyReply) => {
     return new CreateEmployeeController().handle(request, reply);
@@ -46,7 +49,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new UpdateEmployeeController().handle(request, reply);
   });
 
-  // Manufacturer routes
+  // Manufacturer routes ---------------------------------------------------
 
   fastify.post("/manufacturer/add", async (request: FastifyRequest, reply: FastifyReply) => {
     return new CreateManufacturerController().handle(request, reply);
@@ -64,7 +67,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new UpdateManufacturerController().handle(request, reply);
   });
 
-  // VehicleModel routes
+  // VehicleModel routes ---------------------------------------------------
 
   fastify.post("/vehicle-model/add", async (request: FastifyRequest, reply: FastifyReply) => {
     return new CreateVehicleModelController().handle(request, reply);
@@ -76,6 +79,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
   fastify.get("/vehicle-model/list", async (request: FastifyRequest, reply: FastifyReply) => {
     return new ListVehicleModelController().handle(request, reply);
+  });
+
+  fastify.put("/vehicle-model/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new UpdateVehicleModelController().handle(request, reply);
   });
 
 }
