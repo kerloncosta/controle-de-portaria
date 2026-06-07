@@ -10,6 +10,7 @@ import {UpdateEmployeeController} from "./controllers/controllersEmployee/Update
 // Importing controllers for Manufacturer
 import { CreateManufacturerController } from "./controllers/controllersManufacturer/CreateManufacturerController.js";
 import { DeleteManufacturerController } from "./controllers/controllersManufacturer/DeleteManufacturerController.js";
+import { ListManufacturerController } from "./controllers/controllersManufacturer/ListManufacturerController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -47,6 +48,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
   fastify.delete("/manufacturer/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new DeleteManufacturerController().handle(request, reply);
+  });
+
+  fastify.get("/manufacturer/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListManufacturerController().handle(request, reply);
   });
 
 }
