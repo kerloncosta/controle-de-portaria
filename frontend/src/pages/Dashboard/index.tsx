@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FiUsers, FiLogOut, FiBox ,FiTruck  } from 'react-icons/fi';
+import { FiList, FiUsers, FiLogOut, FiTruck, FiLayers  } from 'react-icons/fi';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -12,37 +12,40 @@ export function Dashboard() {
           Portaria
         </div>
 
-        <nav className="flex-1 p-4 flex flex-col gap-2">
+        <nav className="p-4 flex flex-col gap-1">
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-green-800 transition-colors"
+          >
+            <FiList size={20} /> Início
+          </button>
+
           <button 
             onClick={() => navigate('/dashboard/funcionarios')}
-            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-green-800 transition-colors"
           >
             <FiUsers size={20} /> Funcionários
           </button>
-        </nav>
 
-        <nav className="flex-1 p-4 flex flex-col gap-2">
           <button 
             onClick={() => navigate('/dashboard/fabricantes')}
-            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-green-800 transition-colors"
           >
-            <FiBox  size={20} /> Fabricantes
+            <FiTruck size={20} /> Fabricantes
           </button>
-        </nav>
 
-        <nav className="flex-1 p-4 flex flex-col gap-2">
           <button 
-            onClick={() => navigate('/dashboard/modelos-veiculos')}
-            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-green-800 transition-colors"
+            onClick={() => navigate('/dashboard/modelos')}
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-green-800 transition-colors"
           >
-            <FiTruck  size={20} /> Modelos de Veículos
+            <FiLayers size={20} /> Modelos
           </button>
         </nav>
 
-        <div className="p-4 border-t border-green-800">
+        <div className="p-4 border-t border-green-800 mt-auto">
           <button 
             onClick={() => navigate('/')}
-            className="flex items-center gap-3 w-full text-left p-3 rounded hover:bg-red-600 transition-colors text-red-400 hover:text-white"
+            className="flex items-center gap-3 w-full text-left p-3 rounded-md hover:bg-red-600 transition-colors text-red-400 hover:text-white"
           >
             <FiLogOut size={20} /> Sair
           </button>
