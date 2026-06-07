@@ -13,6 +13,4 @@ class DeleteEmployeeController {
   }
 }
 
-
 export { DeleteEmployeeController };
-  
