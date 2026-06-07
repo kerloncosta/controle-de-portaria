@@ -9,35 +9,59 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Controle de Portaria</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-200 p-4">
+      
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-[400px]">
         
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Usuário</label>
+        <div className="text-center mb-8 mt-2">
+          <h1 className="text-2xl font-bold text-green-950 uppercase tracking-widest mb-2">
+            Controle de<br />Portaria
+          </h1>
+          <p className="text-xs text-green-600 uppercase font-bold tracking-wider">
+            Acesse sua conta para continuar
+          </p>
+        </div>
+        
+        <form onSubmit={handleLogin} className="flex flex-col gap-5">
+          
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[11px] font-bold text-green-900 uppercase tracking-wider">
+              Usuário (CPF)
+            </label>
             <input 
               type="text" 
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm"
               placeholder="Digite seu usuário"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[11px] font-bold text-green-900 uppercase tracking-wider">
+              Senha
+            </label>
             <input 
               type="password" 
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="********"
+              className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm"
+              placeholder="******"
             />
           </div>
 
           <button 
             type="submit" 
-            className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors mt-4"
+            className="w-full bg-green-700 text-white font-bold text-sm uppercase tracking-wider py-3 px-4 rounded-lg hover:bg-green-800 transition-colors mt-4 shadow-sm"
           >
-            Entrar
+            Acessar Sistema
           </button>
+
+          <div className="text-center mt-2 mb-1">
+            <button 
+              type="button"
+              className="text-[13px] font-bold text-green-600 hover:text-green-800 transition-colors tracking-wide"
+            >
+              Esqueci minha senha
+            </button>
+          </div>
+          
         </form>
       </div>
     </div>
