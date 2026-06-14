@@ -11,4 +11,6 @@
 export type * from './models/employee.js'
 export type * from './models/Manufacturer.js'
 export type * from './models/VehicleModel.js'
+export type * from './models/Driver.js'
+export type * from './models/Vehicle.js'
 export type * from './commonInputTypes.js'

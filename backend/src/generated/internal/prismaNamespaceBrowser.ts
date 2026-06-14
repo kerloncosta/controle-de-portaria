@@ -51,7 +51,9 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 export const ModelName = {
   employee: 'employee',
   Manufacturer: 'Manufacturer',
-  VehicleModel: 'VehicleModel'
+  VehicleModel: 'VehicleModel',
+  Driver: 'Driver',
+  Vehicle: 'Vehicle'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,6 +98,28 @@ export const VehicleModelScalarFieldEnum = {
 } as const
 
 export type VehicleModelScalarFieldEnum = (typeof VehicleModelScalarFieldEnum)[keyof typeof VehicleModelScalarFieldEnum]
+
+
+export const DriverScalarFieldEnum = {
+  id: 'id',
+  cpf: 'cpf',
+  name: 'name',
+  cnh_expiration: 'cnh_expiration',
+  cnh: 'cnh'
+} as const
+
+export type DriverScalarFieldEnum = (typeof DriverScalarFieldEnum)[keyof typeof DriverScalarFieldEnum]
+
+
+export const VehicleScalarFieldEnum = {
+  id: 'id',
+  plate: 'plate',
+  color: 'color',
+  model_id: 'model_id',
+  driver_id: 'driver_id'
+} as const
+
+export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
 
 
 export const SortOrder = {

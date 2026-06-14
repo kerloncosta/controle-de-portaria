@@ -205,6 +205,7 @@ export type VehicleModelWhereInput = {
   name?: Prisma.StringFilter<"VehicleModel"> | string
   manufacturer_id?: Prisma.IntFilter<"VehicleModel"> | number
   manufacturer?: Prisma.XOR<Prisma.ManufacturerScalarRelationFilter, Prisma.ManufacturerWhereInput>
+  vehicles?: Prisma.VehicleListRelationFilter
 }
 
 export type VehicleModelOrderByWithRelationInput = {
@@ -212,6 +213,7 @@ export type VehicleModelOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   manufacturer_id?: Prisma.SortOrder
   manufacturer?: Prisma.ManufacturerOrderByWithRelationInput
+  vehicles?: Prisma.VehicleOrderByRelationAggregateInput
 }
 
 export type VehicleModelWhereUniqueInput = Prisma.AtLeast<{
@@ -222,6 +224,7 @@ export type VehicleModelWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"VehicleModel"> | string
   manufacturer_id?: Prisma.IntFilter<"VehicleModel"> | number
   manufacturer?: Prisma.XOR<Prisma.ManufacturerScalarRelationFilter, Prisma.ManufacturerWhereInput>
+  vehicles?: Prisma.VehicleListRelationFilter
 }, "id">
 
 export type VehicleModelOrderByWithAggregationInput = {
@@ -247,23 +250,27 @@ export type VehicleModelScalarWhereWithAggregatesInput = {
 export type VehicleModelCreateInput = {
   name: string
   manufacturer: Prisma.ManufacturerCreateNestedOneWithoutVehicleModelsInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutModelInput
 }
 
 export type VehicleModelUncheckedCreateInput = {
   id?: number
   name: string
   manufacturer_id: number
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutModelInput
 }
 
 export type VehicleModelUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   manufacturer?: Prisma.ManufacturerUpdateOneRequiredWithoutVehicleModelsNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutModelNestedInput
 }
 
 export type VehicleModelUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   manufacturer_id?: Prisma.IntFieldUpdateOperationsInput | number
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutModelNestedInput
 }
 
 export type VehicleModelCreateManyInput = {
@@ -320,6 +327,11 @@ export type VehicleModelSumOrderByAggregateInput = {
   manufacturer_id?: Prisma.SortOrder
 }
 
+export type VehicleModelScalarRelationFilter = {
+  is?: Prisma.VehicleModelWhereInput
+  isNot?: Prisma.VehicleModelWhereInput
+}
+
 export type VehicleModelCreateNestedManyWithoutManufacturerInput = {
   create?: Prisma.XOR<Prisma.VehicleModelCreateWithoutManufacturerInput, Prisma.VehicleModelUncheckedCreateWithoutManufacturerInput> | Prisma.VehicleModelCreateWithoutManufacturerInput[] | Prisma.VehicleModelUncheckedCreateWithoutManufacturerInput[]
   connectOrCreate?: Prisma.VehicleModelCreateOrConnectWithoutManufacturerInput | Prisma.VehicleModelCreateOrConnectWithoutManufacturerInput[]
@@ -362,13 +374,29 @@ export type VehicleModelUncheckedUpdateManyWithoutManufacturerNestedInput = {
   deleteMany?: Prisma.VehicleModelScalarWhereInput | Prisma.VehicleModelScalarWhereInput[]
 }
 
+export type VehicleModelCreateNestedOneWithoutVehiclesInput = {
+  create?: Prisma.XOR<Prisma.VehicleModelCreateWithoutVehiclesInput, Prisma.VehicleModelUncheckedCreateWithoutVehiclesInput>
+  connectOrCreate?: Prisma.VehicleModelCreateOrConnectWithoutVehiclesInput
+  connect?: Prisma.VehicleModelWhereUniqueInput
+}
+
+export type VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleModelCreateWithoutVehiclesInput, Prisma.VehicleModelUncheckedCreateWithoutVehiclesInput>
+  connectOrCreate?: Prisma.VehicleModelCreateOrConnectWithoutVehiclesInput
+  upsert?: Prisma.VehicleModelUpsertWithoutVehiclesInput
+  connect?: Prisma.VehicleModelWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehicleModelUpdateToOneWithWhereWithoutVehiclesInput, Prisma.VehicleModelUpdateWithoutVehiclesInput>, Prisma.VehicleModelUncheckedUpdateWithoutVehiclesInput>
+}
+
 export type VehicleModelCreateWithoutManufacturerInput = {
   name: string
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutModelInput
 }
 
 export type VehicleModelUncheckedCreateWithoutManufacturerInput = {
   id?: number
   name: string
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutModelInput
 }
 
 export type VehicleModelCreateOrConnectWithoutManufacturerInput = {
@@ -406,6 +434,44 @@ export type VehicleModelScalarWhereInput = {
   manufacturer_id?: Prisma.IntFilter<"VehicleModel"> | number
 }
 
+export type VehicleModelCreateWithoutVehiclesInput = {
+  name: string
+  manufacturer: Prisma.ManufacturerCreateNestedOneWithoutVehicleModelsInput
+}
+
+export type VehicleModelUncheckedCreateWithoutVehiclesInput = {
+  id?: number
+  name: string
+  manufacturer_id: number
+}
+
+export type VehicleModelCreateOrConnectWithoutVehiclesInput = {
+  where: Prisma.VehicleModelWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleModelCreateWithoutVehiclesInput, Prisma.VehicleModelUncheckedCreateWithoutVehiclesInput>
+}
+
+export type VehicleModelUpsertWithoutVehiclesInput = {
+  update: Prisma.XOR<Prisma.VehicleModelUpdateWithoutVehiclesInput, Prisma.VehicleModelUncheckedUpdateWithoutVehiclesInput>
+  create: Prisma.XOR<Prisma.VehicleModelCreateWithoutVehiclesInput, Prisma.VehicleModelUncheckedCreateWithoutVehiclesInput>
+  where?: Prisma.VehicleModelWhereInput
+}
+
+export type VehicleModelUpdateToOneWithWhereWithoutVehiclesInput = {
+  where?: Prisma.VehicleModelWhereInput
+  data: Prisma.XOR<Prisma.VehicleModelUpdateWithoutVehiclesInput, Prisma.VehicleModelUncheckedUpdateWithoutVehiclesInput>
+}
+
+export type VehicleModelUpdateWithoutVehiclesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacturer?: Prisma.ManufacturerUpdateOneRequiredWithoutVehicleModelsNestedInput
+}
+
+export type VehicleModelUncheckedUpdateWithoutVehiclesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacturer_id?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type VehicleModelCreateManyManufacturerInput = {
   id?: number
   name: string
@@ -413,11 +479,13 @@ export type VehicleModelCreateManyManufacturerInput = {
 
 export type VehicleModelUpdateWithoutManufacturerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicles?: Prisma.VehicleUpdateManyWithoutModelNestedInput
 }
 
 export type VehicleModelUncheckedUpdateWithoutManufacturerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutModelNestedInput
 }
 
 export type VehicleModelUncheckedUpdateManyWithoutManufacturerInput = {
@@ -426,12 +494,43 @@ export type VehicleModelUncheckedUpdateManyWithoutManufacturerInput = {
 }
 
 
+/**
+ * Count Type VehicleModelCountOutputType
+ */
+
+export type VehicleModelCountOutputType = {
+  vehicles: number
+}
+
+export type VehicleModelCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vehicles?: boolean | VehicleModelCountOutputTypeCountVehiclesArgs
+}
+
+/**
+ * VehicleModelCountOutputType without action
+ */
+export type VehicleModelCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VehicleModelCountOutputType
+   */
+  select?: Prisma.VehicleModelCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VehicleModelCountOutputType without action
+ */
+export type VehicleModelCountOutputTypeCountVehiclesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VehicleWhereInput
+}
+
 
 export type VehicleModelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   manufacturer_id?: boolean
   manufacturer?: boolean | Prisma.ManufacturerDefaultArgs<ExtArgs>
+  vehicles?: boolean | Prisma.VehicleModel$vehiclesArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleModelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicleModel"]>
 
 export type VehicleModelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -457,6 +556,8 @@ export type VehicleModelSelectScalar = {
 export type VehicleModelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "manufacturer_id", ExtArgs["result"]["vehicleModel"]>
 export type VehicleModelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   manufacturer?: boolean | Prisma.ManufacturerDefaultArgs<ExtArgs>
+  vehicles?: boolean | Prisma.VehicleModel$vehiclesArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleModelCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VehicleModelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   manufacturer?: boolean | Prisma.ManufacturerDefaultArgs<ExtArgs>
@@ -469,6 +570,7 @@ export type $VehicleModelPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "VehicleModel"
   objects: {
     manufacturer: Prisma.$ManufacturerPayload<ExtArgs>
+    vehicles: Prisma.$VehiclePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -869,6 +971,7 @@ readonly fields: VehicleModelFieldRefs;
 export interface Prisma__VehicleModelClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   manufacturer<T extends Prisma.ManufacturerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ManufacturerDefaultArgs<ExtArgs>>): Prisma.Prisma__ManufacturerClient<runtime.Types.Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  vehicles<T extends Prisma.VehicleModel$vehiclesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleModel$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1294,6 +1397,30 @@ export type VehicleModelDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many VehicleModels to delete.
    */
   limit?: number
+}
+
+/**
+ * VehicleModel.vehicles
+ */
+export type VehicleModel$vehiclesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vehicle
+   */
+  select?: Prisma.VehicleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vehicle
+   */
+  omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  where?: Prisma.VehicleWhereInput
+  orderBy?: Prisma.VehicleOrderByWithRelationInput | Prisma.VehicleOrderByWithRelationInput[]
+  cursor?: Prisma.VehicleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VehicleScalarFieldEnum | Prisma.VehicleScalarFieldEnum[]
 }
 
 /**

@@ -59,3 +59,13 @@ export type Manufacturer = Prisma.ManufacturerModel
  * 
  */
 export type VehicleModel = Prisma.VehicleModelModel
+/**
+ * Model Driver
+ * 
+ */
+export type Driver = Prisma.DriverModel
+/**
+ * Model Vehicle
+ * 
+ */
+export type Vehicle = Prisma.VehicleModel

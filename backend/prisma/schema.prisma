@@ -37,5 +37,32 @@ model VehicleModel {
   manufacturer_id Int
   manufacturer    Manufacturer @relation(fields: [manufacturer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+vehicles        Vehicle[]
+
   @@map("vehicle_model")
+}
+
+model Driver {
+  id             String    @id @default(uuid()) @db.Uuid
+  cpf            String    @unique @db.Char(11)
+  name           String    @db.VarChar(60)
+  cnh_expiration DateTime  @db.Date
+  cnh            String    @db.Char(11)
+
+  vehicles       Vehicle[]
+
+  @@map("driver")
+}
+
+model Vehicle {
+  id        String   @id @default(uuid()) @db.Uuid
+  plate     String   @unique @db.VarChar(10)
+  color     String   @db.VarChar(20)
+  model_id  Int
+  driver_id String   @db.Uuid
+
+  model     VehicleModel @relation(fields: [model_id], references: [id])
+  driver    Driver       @relation(fields: [driver_id], references: [id])
+
+  @@map("vehicle")
 }
