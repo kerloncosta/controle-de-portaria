@@ -52,3 +52,39 @@ export function validatePassword(password: string): boolean{
   return true;
 }
 
+export function validateCnhFormat(cnh: string): boolean {
+
+  const cleanCnh = cnh.replace(/\D/g, '');
+
+  if (cleanCnh.length !== 11 || /^(\d)\1{10}$/.test(cleanCnh)) {
+    return false;
+  }
+
+  let dsc = 0;
+  let v = 0;
+
+  for (let i = 0, j = 9; i < 9; i++, j--) {
+    v += parseInt(cleanCnh.charAt(i)) * j;
+  }
+
+  let d1 = v % 11;
+  if (d1 >= 10){
+    d1 = 0;
+    dsc = 2;
+  }
+
+  v = 0;
+  for (let i = 0, j = 1; i < 9; i++, j++) {
+    v += parseInt(cleanCnh.charAt(i)) * j;
+  }
+  
+  let x = v % 11;
+  let d2 = x >= dsc ? x - dsc : 11 + x - dsc;
+
+  if(d2 >= 10){
+    d2 = 0;
+  }
+
+  return d1 === parseInt(cleanCnh.charAt(9)) && d2 === parseInt(cleanCnh.charAt(10));
+}
+

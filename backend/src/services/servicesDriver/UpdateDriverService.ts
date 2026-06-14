@@ -2,10 +2,10 @@ import prisma from '../../prisma/index.js';
 
 interface UpdateDriverProps {
   id: string;
-  name?: string;
-  cpf?: string;
-  cnh?: string;
-  cnh_expiration?: string;
+  name?: string | undefined;
+  cpf?: string | undefined;
+  cnh?: string | undefined;
+  cnh_expiration?: string | undefined;
 }
 
 class UpdateDriverService {

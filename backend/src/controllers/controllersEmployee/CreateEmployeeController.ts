@@ -25,8 +25,7 @@ class CreateEmployeeController {
 
     }catch(error){
       return reply.status(400).send({ error: (error as Error).message });
-    }
-    
+    } 
   }
 }
 

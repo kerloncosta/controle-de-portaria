@@ -1,23 +1,35 @@
 import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
 
  // Importing controllers for Employee
-import { CreateEmployeeController } from "./controllers/controllersEmployee/CreateEmployeeController.js";
-import { ListEmployeeController } from "./controllers/controllersEmployee/ListEmployeesController.js";
-import { DeleteEmployeeController } from "./controllers/controllersEmployee/DeleteEmployeeController.js";
-import { FindEmployeeByCpfController } from "./controllers/controllersEmployee/FindEmployeeByCpfController.js";
-import {UpdateEmployeeController} from "./controllers/controllersEmployee/UpdateEmployeeController.js";
+  import { CreateEmployeeController } from "./controllers/controllersEmployee/CreateEmployeeController.js";
+  import { ListEmployeeController } from "./controllers/controllersEmployee/ListEmployeeController.js";
+  import { DeleteEmployeeController } from "./controllers/controllersEmployee/DeleteEmployeeController.js";
+  import { FindEmployeeByCpfController } from "./controllers/controllersEmployee/FindEmployeeByCpfController.js";
+  import {UpdateEmployeeController} from "./controllers/controllersEmployee/UpdateEmployeeController.js";
 
 // Importing controllers for Manufacturer
-import { CreateManufacturerController } from "./controllers/controllersManufacturer/CreateManufacturerController.js";
-import { DeleteManufacturerController } from "./controllers/controllersManufacturer/DeleteManufacturerController.js";
-import { ListManufacturerController } from "./controllers/controllersManufacturer/ListManufacturerController.js";
-import { UpdateManufacturerController } from "./controllers/controllersManufacturer/UpdateManufacturerController.js";
+  import { CreateManufacturerController } from "./controllers/controllersManufacturer/CreateManufacturerController.js";
+  import { DeleteManufacturerController } from "./controllers/controllersManufacturer/DeleteManufacturerController.js";
+  import { ListManufacturerController } from "./controllers/controllersManufacturer/ListManufacturerController.js";
+  import { UpdateManufacturerController } from "./controllers/controllersManufacturer/UpdateManufacturerController.js";
 
 // Importing controllers for VehicleModel
-import { CreateVehicleModelController } from "./controllers/controllersVehicleModel/CreateVehicleModelController.js";
-import { DeleteVehicleModelController } from "./controllers/controllersVehicleModel/DeleteVehicleModelController.js";
-import { ListVehicleModelController } from "./controllers/controllersVehicleModel/ListVehicleModelController.js";
-import { UpdateVehicleModelController } from "./controllers/controllersVehicleModel/UpdateVehicleModelController.js";
+  import { CreateVehicleModelController } from "./controllers/controllersVehicleModel/CreateVehicleModelController.js";
+  import { DeleteVehicleModelController } from "./controllers/controllersVehicleModel/DeleteVehicleModelController.js";
+  import { ListVehicleModelController } from "./controllers/controllersVehicleModel/ListVehicleModelController.js";
+  import { UpdateVehicleModelController } from "./controllers/controllersVehicleModel/UpdateVehicleModelController.js";
+
+
+// Importing controllers for Driver
+  import { CreateDriverController } from "./controllers/controllersDriver/CreateDriverController.js";
+  import { DeleteDriverController } from "./controllers/controllersDriver/DeleteDriverController.js";
+  import { ListDriverController } from "./controllers/controllersDriver/ListDriverController.js";
+  import { FindDriverByCpfController } from "./controllers/controllersDriver/FindDriverByCpfController.js";
+  import { FindDriverByCnhController } from "./controllers/controllersDriver/FindDriverByCnhController.js";
+  import { UpdateDriverController } from "./controllers/controllersDriver/UpdateDriverController.js";
+  
+
+// Importing controllers for Vehicle
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -33,20 +45,20 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new CreateEmployeeController().handle(request, reply);
   });
 
-  fastify.get("/employee/list", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new ListEmployeeController().handle(request, reply);
-  });
-
   fastify.delete("/employee/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new DeleteEmployeeController().handle(request, reply);
   });
 
-  fastify.get("/employee/find-by-cpf/:cpf", async (request: FastifyRequest, reply: FastifyReply) => {
-    return new FindEmployeeByCpfController().handle(request, reply);
+  fastify.get("/employee/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListEmployeeController().handle(request, reply);
   });
 
   fastify.put("/employee/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new UpdateEmployeeController().handle(request, reply);
+  });
+
+  fastify.get("/employee/find-by-cpf/:cpf", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new FindEmployeeByCpfController().handle(request, reply);
   });
 
   // Manufacturer routes ---------------------------------------------------
@@ -84,5 +96,33 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
   fastify.put("/vehicle-model/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new UpdateVehicleModelController().handle(request, reply);
   });
+
+  // Driver routes ---------------------------------------------------
+
+  fastify.post("/driver/add", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new CreateDriverController().handle(request, reply);
+  });
+
+  fastify.delete("/driver/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new DeleteDriverController().handle(request, reply);
+  });
+
+  fastify.get("/driver/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListDriverController().handle(request, reply);
+  });
+
+  fastify.put("/driver/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new UpdateDriverController().handle(request, reply);
+  });
+
+  fastify.get("/driver/find-by-cnh/:cnh", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new FindDriverByCnhController().handle(request, reply);
+  });
+
+  fastify.get("/driver/find-by-cpf/:cpf", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new FindDriverByCpfController().handle(request, reply);
+  });
+
+  // Vehicle routes ---------------------------------------------------
 
 }
