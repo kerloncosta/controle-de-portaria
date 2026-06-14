@@ -197,14 +197,14 @@ export type DriverOrderByWithRelationInput = {
 export type DriverWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   cpf?: string
+  cnh?: string
   AND?: Prisma.DriverWhereInput | Prisma.DriverWhereInput[]
   OR?: Prisma.DriverWhereInput[]
   NOT?: Prisma.DriverWhereInput | Prisma.DriverWhereInput[]
   name?: Prisma.StringFilter<"Driver"> | string
   cnh_expiration?: Prisma.DateTimeFilter<"Driver"> | Date | string
-  cnh?: Prisma.StringFilter<"Driver"> | string
   vehicles?: Prisma.VehicleListRelationFilter
-}, "id" | "cpf">
+}, "id" | "cpf" | "cnh">
 
 export type DriverOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

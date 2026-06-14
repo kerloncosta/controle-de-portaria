@@ -47,7 +47,7 @@ model Driver {
   cpf            String    @unique @db.Char(11)
   name           String    @db.VarChar(60)
   cnh_expiration DateTime  @db.Date
-  cnh            String    @db.Char(11)
+  cnh            String    @unique @db.Char(11)
 
   vehicles       Vehicle[]
 
