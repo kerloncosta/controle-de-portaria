@@ -27,9 +27,14 @@ import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyRepl
   import { FindDriverByCpfController } from "./controllers/controllersDriver/FindDriverByCpfController.js";
   import { FindDriverByCnhController } from "./controllers/controllersDriver/FindDriverByCnhController.js";
   import { UpdateDriverController } from "./controllers/controllersDriver/UpdateDriverController.js";
-  
 
 // Importing controllers for Vehicle
+  import { CreateVehicleController } from "./controllers/controllersVehicle/CreateVehicleController.js";
+  import { DeleteVehicleController } from "./controllers/controllersVehicle/DeleteVehicleController.js";
+  import { ListVehicleController } from "./controllers/controllersVehicle/ListVehicleController.js";
+  import { UpdateVehicleController } from "./controllers/controllersVehicle/UpdateVehicleController.js";
+  import { FindVehicleByPlateController } from "./controllers/controllersVehicle/FindVehicleByPlateController.js";
+
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -125,4 +130,24 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
   // Vehicle routes ---------------------------------------------------
 
+  fastify.post("/vehicle/add", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new CreateVehicleController().handle(request, reply);
+  });
+
+  fastify.delete("/vehicle/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new DeleteVehicleController().handle(request, reply);
+  });
+
+  fastify.get("/vehicle/list", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new ListVehicleController().handle(request, reply);
+  });
+
+  fastify.put("/vehicle/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new UpdateVehicleController().handle(request, reply);
+  });
+
+  fastify.get("/vehicle/find-by-plate/:plate", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new FindVehicleByPlateController().handle(request, reply);
+  });
+  
 }

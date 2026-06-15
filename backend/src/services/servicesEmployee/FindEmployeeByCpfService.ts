@@ -1,6 +1,6 @@
 import prisma from '../../prisma/index.js';
 
-interface FindEmployeeByCpfServiceRequest {
+interface FindEmployeeByCpfServiceRequest{
   cpf: string;
 }
 

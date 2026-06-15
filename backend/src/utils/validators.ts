@@ -88,3 +88,15 @@ export function validateCnhFormat(cnh: string): boolean {
   return d1 === parseInt(cleanCnh.charAt(9)) && d2 === parseInt(cleanCnh.charAt(10));
 }
 
+export function validatePlateFormat(plate: string): boolean {
+  const cleanPlate = plate.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+  if (cleanPlate.length !== 7) {
+    return false;
+  }
+
+  const plateRegex = /^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/;
+
+  return plateRegex.test(plate);
+}
+
