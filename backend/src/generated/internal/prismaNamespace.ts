@@ -394,7 +394,8 @@ export const ModelName = {
   Manufacturer: 'Manufacturer',
   VehicleModel: 'VehicleModel',
   Driver: 'Driver',
-  Vehicle: 'Vehicle'
+  Vehicle: 'Vehicle',
+  movement: 'movement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "employee" | "manufacturer" | "vehicleModel" | "driver" | "vehicle"
+    modelProps: "employee" | "manufacturer" | "vehicleModel" | "driver" | "vehicle" | "movement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -784,6 +785,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    movement: {
+      payload: Prisma.$movementPayload<ExtArgs>
+      fields: Prisma.movementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.movementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.movementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        findFirst: {
+          args: Prisma.movementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.movementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        findMany: {
+          args: Prisma.movementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>[]
+        }
+        create: {
+          args: Prisma.movementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        createMany: {
+          args: Prisma.movementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.movementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>[]
+        }
+        delete: {
+          args: Prisma.movementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        update: {
+          args: Prisma.movementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        deleteMany: {
+          args: Prisma.movementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.movementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.movementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>[]
+        }
+        upsert: {
+          args: Prisma.movementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$movementPayload>
+        }
+        aggregate: {
+          args: Prisma.MovementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMovement>
+        }
+        groupBy: {
+          args: Prisma.movementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.movementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovementCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -873,6 +948,20 @@ export const VehicleScalarFieldEnum = {
 export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
 
 
+export const MovementScalarFieldEnum = {
+  id: 'id',
+  invoice_number: 'invoice_number',
+  cargo_description: 'cargo_description',
+  entry_time: 'entry_time',
+  exit_time: 'exit_time',
+  driver_id: 'driver_id',
+  vehicle_id: 'vehicle_id',
+  employee_id: 'employee_id'
+} as const
+
+export type MovementScalarFieldEnum = (typeof MovementScalarFieldEnum)[keyof typeof MovementScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -887,6 +976,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -1056,6 +1153,7 @@ export type GlobalOmitConfig = {
   vehicleModel?: Prisma.VehicleModelOmit
   driver?: Prisma.DriverOmit
   vehicle?: Prisma.VehicleOmit
+  movement?: Prisma.movementOmit
 }
 
 /* Types for Logging */

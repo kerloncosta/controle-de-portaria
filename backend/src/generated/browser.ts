@@ -42,3 +42,8 @@ export type Driver = Prisma.DriverModel
  * 
  */
 export type Vehicle = Prisma.VehicleModel
+/**
+ * Model movement
+ * 
+ */
+export type movement = Prisma.movementModel

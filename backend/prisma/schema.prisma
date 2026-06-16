@@ -21,6 +21,8 @@ model employee {
   name     String  @db.VarChar(60)
   password String  @db.VarChar(64)
   role     Decimal @db.Decimal(1, 0)
+
+  movement   movement[]
 }
 
 model Manufacturer {
@@ -50,6 +52,7 @@ model Driver {
   cnh            String    @unique @db.Char(11)
 
   vehicles       Vehicle[]
+  movement       movement[]
 
   @@map("driver")
 }
@@ -64,5 +67,24 @@ model Vehicle {
   model     VehicleModel @relation(fields: [model_id], references: [id])
   driver    Driver       @relation(fields: [driver_id], references: [id])
 
+  movement  movement[]
+
   @@map("vehicle")
+}
+
+model movement {
+  id                String    @id(map: "pk_movement") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  invoice_number    String?   @db.VarChar(60)
+  cargo_description String?   @db.VarChar(100)
+  entry_time        DateTime  @default(now()) @db.Timestamptz
+  exit_time         DateTime? @db.Timestamptz
+  
+  driver_id         String    @db.Uuid
+  driver            Driver    @relation(fields: [driver_id], references: [id], map: "fk_movement_driver")
+
+  vehicle_id        String    @db.Uuid
+  vehicle           Vehicle   @relation(fields: [vehicle_id], references: [id], map: "fk_movement_vehicle")
+
+  employee_id       String    @db.Uuid
+  employee          employee  @relation(fields: [employee_id], references: [id], map: "fk_movement_employee")
 }

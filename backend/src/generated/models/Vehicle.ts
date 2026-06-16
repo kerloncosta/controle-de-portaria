@@ -218,6 +218,7 @@ export type VehicleWhereInput = {
   driver_id?: Prisma.UuidFilter<"Vehicle"> | string
   model?: Prisma.XOR<Prisma.VehicleModelScalarRelationFilter, Prisma.VehicleModelWhereInput>
   driver?: Prisma.XOR<Prisma.DriverScalarRelationFilter, Prisma.DriverWhereInput>
+  movement?: Prisma.MovementListRelationFilter
 }
 
 export type VehicleOrderByWithRelationInput = {
@@ -228,6 +229,7 @@ export type VehicleOrderByWithRelationInput = {
   driver_id?: Prisma.SortOrder
   model?: Prisma.VehicleModelOrderByWithRelationInput
   driver?: Prisma.DriverOrderByWithRelationInput
+  movement?: Prisma.movementOrderByRelationAggregateInput
 }
 
 export type VehicleWhereUniqueInput = Prisma.AtLeast<{
@@ -241,6 +243,7 @@ export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   driver_id?: Prisma.UuidFilter<"Vehicle"> | string
   model?: Prisma.XOR<Prisma.VehicleModelScalarRelationFilter, Prisma.VehicleModelWhereInput>
   driver?: Prisma.XOR<Prisma.DriverScalarRelationFilter, Prisma.DriverWhereInput>
+  movement?: Prisma.MovementListRelationFilter
 }, "id" | "plate">
 
 export type VehicleOrderByWithAggregationInput = {
@@ -273,6 +276,7 @@ export type VehicleCreateInput = {
   color: string
   model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
   driver: Prisma.DriverCreateNestedOneWithoutVehiclesInput
+  movement?: Prisma.movementCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUncheckedCreateInput = {
@@ -281,6 +285,7 @@ export type VehicleUncheckedCreateInput = {
   color: string
   model_id: number
   driver_id: string
+  movement?: Prisma.movementUncheckedCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUpdateInput = {
@@ -289,6 +294,7 @@ export type VehicleUpdateInput = {
   color?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
   driver?: Prisma.DriverUpdateOneRequiredWithoutVehiclesNestedInput
+  movement?: Prisma.movementUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateInput = {
@@ -297,6 +303,7 @@ export type VehicleUncheckedUpdateInput = {
   color?: Prisma.StringFieldUpdateOperationsInput | string
   model_id?: Prisma.IntFieldUpdateOperationsInput | number
   driver_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement?: Prisma.movementUncheckedUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleCreateManyInput = {
@@ -361,6 +368,11 @@ export type VehicleMinOrderByAggregateInput = {
 
 export type VehicleSumOrderByAggregateInput = {
   model_id?: Prisma.SortOrder
+}
+
+export type VehicleScalarRelationFilter = {
+  is?: Prisma.VehicleWhereInput
+  isNot?: Prisma.VehicleWhereInput
 }
 
 export type VehicleCreateNestedManyWithoutModelInput = {
@@ -447,11 +459,26 @@ export type VehicleUncheckedUpdateManyWithoutDriverNestedInput = {
   deleteMany?: Prisma.VehicleScalarWhereInput | Prisma.VehicleScalarWhereInput[]
 }
 
+export type VehicleCreateNestedOneWithoutMovementInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutMovementInput, Prisma.VehicleUncheckedCreateWithoutMovementInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutMovementInput
+  connect?: Prisma.VehicleWhereUniqueInput
+}
+
+export type VehicleUpdateOneRequiredWithoutMovementNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutMovementInput, Prisma.VehicleUncheckedCreateWithoutMovementInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutMovementInput
+  upsert?: Prisma.VehicleUpsertWithoutMovementInput
+  connect?: Prisma.VehicleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehicleUpdateToOneWithWhereWithoutMovementInput, Prisma.VehicleUpdateWithoutMovementInput>, Prisma.VehicleUncheckedUpdateWithoutMovementInput>
+}
+
 export type VehicleCreateWithoutModelInput = {
   id?: string
   plate: string
   color: string
   driver: Prisma.DriverCreateNestedOneWithoutVehiclesInput
+  movement?: Prisma.movementCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUncheckedCreateWithoutModelInput = {
@@ -459,6 +486,7 @@ export type VehicleUncheckedCreateWithoutModelInput = {
   plate: string
   color: string
   driver_id: string
+  movement?: Prisma.movementUncheckedCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleCreateOrConnectWithoutModelInput = {
@@ -503,6 +531,7 @@ export type VehicleCreateWithoutDriverInput = {
   plate: string
   color: string
   model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
+  movement?: Prisma.movementCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUncheckedCreateWithoutDriverInput = {
@@ -510,6 +539,7 @@ export type VehicleUncheckedCreateWithoutDriverInput = {
   plate: string
   color: string
   model_id: number
+  movement?: Prisma.movementUncheckedCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleCreateOrConnectWithoutDriverInput = {
@@ -538,6 +568,54 @@ export type VehicleUpdateManyWithWhereWithoutDriverInput = {
   data: Prisma.XOR<Prisma.VehicleUpdateManyMutationInput, Prisma.VehicleUncheckedUpdateManyWithoutDriverInput>
 }
 
+export type VehicleCreateWithoutMovementInput = {
+  id?: string
+  plate: string
+  color: string
+  model: Prisma.VehicleModelCreateNestedOneWithoutVehiclesInput
+  driver: Prisma.DriverCreateNestedOneWithoutVehiclesInput
+}
+
+export type VehicleUncheckedCreateWithoutMovementInput = {
+  id?: string
+  plate: string
+  color: string
+  model_id: number
+  driver_id: string
+}
+
+export type VehicleCreateOrConnectWithoutMovementInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutMovementInput, Prisma.VehicleUncheckedCreateWithoutMovementInput>
+}
+
+export type VehicleUpsertWithoutMovementInput = {
+  update: Prisma.XOR<Prisma.VehicleUpdateWithoutMovementInput, Prisma.VehicleUncheckedUpdateWithoutMovementInput>
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutMovementInput, Prisma.VehicleUncheckedCreateWithoutMovementInput>
+  where?: Prisma.VehicleWhereInput
+}
+
+export type VehicleUpdateToOneWithWhereWithoutMovementInput = {
+  where?: Prisma.VehicleWhereInput
+  data: Prisma.XOR<Prisma.VehicleUpdateWithoutMovementInput, Prisma.VehicleUncheckedUpdateWithoutMovementInput>
+}
+
+export type VehicleUpdateWithoutMovementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  plate?: Prisma.StringFieldUpdateOperationsInput | string
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
+  driver?: Prisma.DriverUpdateOneRequiredWithoutVehiclesNestedInput
+}
+
+export type VehicleUncheckedUpdateWithoutMovementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  plate?: Prisma.StringFieldUpdateOperationsInput | string
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  model_id?: Prisma.IntFieldUpdateOperationsInput | number
+  driver_id?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type VehicleCreateManyModelInput = {
   id?: string
   plate: string
@@ -550,6 +628,7 @@ export type VehicleUpdateWithoutModelInput = {
   plate?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   driver?: Prisma.DriverUpdateOneRequiredWithoutVehiclesNestedInput
+  movement?: Prisma.movementUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateWithoutModelInput = {
@@ -557,6 +636,7 @@ export type VehicleUncheckedUpdateWithoutModelInput = {
   plate?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   driver_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement?: Prisma.movementUncheckedUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateManyWithoutModelInput = {
@@ -578,6 +658,7 @@ export type VehicleUpdateWithoutDriverInput = {
   plate?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.VehicleModelUpdateOneRequiredWithoutVehiclesNestedInput
+  movement?: Prisma.movementUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateWithoutDriverInput = {
@@ -585,6 +666,7 @@ export type VehicleUncheckedUpdateWithoutDriverInput = {
   plate?: Prisma.StringFieldUpdateOperationsInput | string
   color?: Prisma.StringFieldUpdateOperationsInput | string
   model_id?: Prisma.IntFieldUpdateOperationsInput | number
+  movement?: Prisma.movementUncheckedUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateManyWithoutDriverInput = {
@@ -595,6 +677,35 @@ export type VehicleUncheckedUpdateManyWithoutDriverInput = {
 }
 
 
+/**
+ * Count Type VehicleCountOutputType
+ */
+
+export type VehicleCountOutputType = {
+  movement: number
+}
+
+export type VehicleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  movement?: boolean | VehicleCountOutputTypeCountMovementArgs
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VehicleCountOutputType
+   */
+  select?: Prisma.VehicleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeCountMovementArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.movementWhereInput
+}
+
 
 export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -604,6 +715,8 @@ export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   driver_id?: boolean
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
   driver?: boolean | Prisma.DriverDefaultArgs<ExtArgs>
+  movement?: boolean | Prisma.Vehicle$movementArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -638,6 +751,8 @@ export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type VehicleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
   driver?: boolean | Prisma.DriverDefaultArgs<ExtArgs>
+  movement?: boolean | Prisma.Vehicle$movementArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VehicleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   model?: boolean | Prisma.VehicleModelDefaultArgs<ExtArgs>
@@ -653,6 +768,7 @@ export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     model: Prisma.$VehicleModelPayload<ExtArgs>
     driver: Prisma.$DriverPayload<ExtArgs>
+    movement: Prisma.$movementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1056,6 +1172,7 @@ export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   model<T extends Prisma.VehicleModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VehicleModelDefaultArgs<ExtArgs>>): Prisma.Prisma__VehicleModelClient<runtime.Types.Result.GetResult<Prisma.$VehicleModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   driver<T extends Prisma.DriverDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverDefaultArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  movement<T extends Prisma.Vehicle$movementArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicle$movementArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$movementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1483,6 +1600,30 @@ export type VehicleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Vehicles to delete.
    */
   limit?: number
+}
+
+/**
+ * Vehicle.movement
+ */
+export type Vehicle$movementArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the movement
+   */
+  select?: Prisma.movementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the movement
+   */
+  omit?: Prisma.movementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.movementInclude<ExtArgs> | null
+  where?: Prisma.movementWhereInput
+  orderBy?: Prisma.movementOrderByWithRelationInput | Prisma.movementOrderByWithRelationInput[]
+  cursor?: Prisma.movementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MovementScalarFieldEnum | Prisma.MovementScalarFieldEnum[]
 }
 
 /**

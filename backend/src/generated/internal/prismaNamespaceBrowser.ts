@@ -53,7 +53,8 @@ export const ModelName = {
   Manufacturer: 'Manufacturer',
   VehicleModel: 'VehicleModel',
   Driver: 'Driver',
-  Vehicle: 'Vehicle'
+  Vehicle: 'Vehicle',
+  movement: 'movement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -122,6 +123,20 @@ export const VehicleScalarFieldEnum = {
 export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
 
 
+export const MovementScalarFieldEnum = {
+  id: 'id',
+  invoice_number: 'invoice_number',
+  cargo_description: 'cargo_description',
+  entry_time: 'entry_time',
+  exit_time: 'exit_time',
+  driver_id: 'driver_id',
+  vehicle_id: 'vehicle_id',
+  employee_id: 'employee_id'
+} as const
+
+export type MovementScalarFieldEnum = (typeof MovementScalarFieldEnum)[keyof typeof MovementScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -136,4 +151,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
