@@ -70,6 +70,19 @@ export function Dashboard() {
               Modelos
             </span>
           </button>
+
+          <button 
+            onClick={() => navigate('/dashboard/motoristas')}
+            className="flex items-center px-3 py-2.5 w-full rounded-lg hover:bg-green-800 transition-colors"
+            title="Motoristas"
+          >
+            <div className="min-w-[24px] flex justify-center">
+              <FiUsers size={20} /> 
+            </div>
+            <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Motoristas
+            </span>
+          </button>
         </nav>
 
         <div className="p-3 border-t border-green-800 mt-auto">

@@ -6,6 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Employees } from './pages/Employees';
 import { Manufacturers } from './pages/Manufacturer';
 import { VehicleModels } from './pages/VehicleModels';
+import { Drivers } from './pages/Drivers';
 
 export function App() {
   return (
@@ -24,6 +25,7 @@ export function App() {
           <Route path="funcionarios" element={<Employees />} />
           <Route path="fabricantes" element={<Manufacturers />} />
           <Route path="modelos" element={<VehicleModels />} />
+          <Route path="motoristas" element={<Drivers />} />
         </Route>
 
         

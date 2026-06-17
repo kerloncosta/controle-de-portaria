@@ -19,7 +19,6 @@ import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyRepl
   import { ListVehicleModelController } from "./controllers/controllersVehicleModel/ListVehicleModelController.js";
   import { UpdateVehicleModelController } from "./controllers/controllersVehicleModel/UpdateVehicleModelController.js";
 
-
 // Importing controllers for Driver
   import { CreateDriverController } from "./controllers/controllersDriver/CreateDriverController.js";
   import { DeleteDriverController } from "./controllers/controllersDriver/DeleteDriverController.js";
