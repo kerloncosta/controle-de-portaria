@@ -39,6 +39,7 @@ import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyRepl
 import { CreateMovementController } from "./controllers/controllersMovement/CreateMovementController.js";
 import { ListMovementController } from "./controllers/controllersMovement/ListMovementController.js";
 import { DeleteMovementController } from "./controllers/controllersMovement/DeleteMovementController.js";
+import { UpdateMovementController } from "./controllers/controllersMovement/UpdateMovementController.js";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -164,8 +165,12 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     return new DeleteMovementController().handle(request, reply);
   });
 
-
   fastify.get("/movement/list", async (request: FastifyRequest, reply: FastifyReply) => {
     return new ListMovementController().handle(request, reply);
   });
+
+    fastify.put("/movement/update/:id", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new UpdateMovementController().handle(request, reply);
+  });
+
 }

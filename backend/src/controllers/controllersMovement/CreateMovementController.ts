@@ -6,6 +6,7 @@ interface MovementBody {
   employee_id: string;
   invoice_number?: string | undefined;
   cargo_description?: string | undefined;
+  entry_time?: string | Date | undefined;
 
   driver_id?: string | undefined;
   new_driver?: {
@@ -26,7 +27,7 @@ interface MovementBody {
 class CreateMovementController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { employee_id, invoice_number, cargo_description, driver_id, new_driver, vehicle_id, new_vehicle } = request.body as MovementBody; 
+      const { employee_id, invoice_number, cargo_description, entry_time, driver_id, new_driver, vehicle_id, new_vehicle } = request.body as MovementBody; 
 
       if (!employee_id) {
         throw new Error("O ID do funcionário é obrigatório.");
@@ -67,6 +68,7 @@ class CreateMovementController {
         employee_id,
         invoice_number,
         cargo_description,
+        entry_time,
         driver_id,
         new_driver,
         vehicle_id,

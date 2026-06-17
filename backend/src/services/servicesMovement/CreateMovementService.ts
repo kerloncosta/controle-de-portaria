@@ -5,6 +5,7 @@ interface CreateMovementRequest {
   employee_id: string ;
   invoice_number?: string | undefined;
   cargo_description?: string | undefined;
+  entry_time?: string | Date | undefined;
 
   driver_id?: string | undefined;
   new_driver?: {
@@ -23,7 +24,7 @@ interface CreateMovementRequest {
 }
 
 class CreateMovementService {
-  async execute({ employee_id, invoice_number, cargo_description, driver_id, new_driver, vehicle_id, new_vehicle }: CreateMovementRequest){
+  async execute({ employee_id, invoice_number, cargo_description, entry_time, driver_id, new_driver, vehicle_id, new_vehicle }: CreateMovementRequest){
 
     const movement = await prisma.$transaction(async (tx: Prisma.TransactionClient) =>{
 
@@ -77,6 +78,7 @@ class CreateMovementService {
           vehicle_id: finalVehicleId!,
           invoice_number: invoice_number || null,
           cargo_description: cargo_description || null,
+          entry_time: entry_time ? new Date(entry_time) : undefined,
         },
         include: { driver: { select: { name: true, cpf: true } }, vehicle: { select: { plate: true, color: true } } }
       });
