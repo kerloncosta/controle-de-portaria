@@ -2,24 +2,24 @@ import prisma from '../../prisma/index.js';
 import { Prisma } from '@prisma/client';
 
 interface CreateMovementRequest {
-  employee_id: string;
-  invoice_number?: string;
-  cargo_description?: string;
+  employee_id: string ;
+  invoice_number?: string | undefined;
+  cargo_description?: string | undefined;
 
-  driver_id?: string;
+  driver_id?: string | undefined;
   new_driver?: {
     name: string;
     cpf: string;
     cnh: string;
     cnh_expiration: string | Date;
-  };
+  } | undefined;
 
-  vehicle_id?: string;
+  vehicle_id?: string | undefined;
   new_vehicle?: {
     plate: string;
     color: string;
     model_id: number;
-  };
+  } | undefined;
 }
 
 class CreateMovementService {

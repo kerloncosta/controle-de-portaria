@@ -35,6 +35,9 @@ import type { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyRepl
   import { UpdateVehicleController } from "./controllers/controllersVehicle/UpdateVehicleController.js";
   import { FindVehicleByPlateController } from "./controllers/controllersVehicle/FindVehicleByPlateController.js";
 
+// Importing controllers for Movement
+import { CreateMovementController } from "./controllers/controllersMovement/CreateMovementController.js";
+
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
@@ -149,5 +152,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
   fastify.get("/vehicle/find-by-plate/:plate", async (request: FastifyRequest, reply: FastifyReply) => {
     return new FindVehicleByPlateController().handle(request, reply);
   });
+
+  // Movement routes ------------------------------------------------
   
+  fastify.post("/movement/add", async (request: FastifyRequest, reply: FastifyReply)=>{
+    return new CreateMovementController().handle(request, reply);
+  });
 }
