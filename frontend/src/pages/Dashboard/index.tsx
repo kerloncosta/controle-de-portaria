@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FiUsers, FiLogOut, FiTruck, FiLayers, FiHome, FiSettings, FiBriefcase } from 'react-icons/fi';
+import { FiUsers, FiLogOut, FiTruck, FiLayers, FiHome, FiSettings, FiBriefcase, FiClipboard} from 'react-icons/fi';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -96,6 +96,20 @@ export function Dashboard() {
               Veículos
             </span>
           </button>
+
+          <button 
+            onClick={() => navigate('/dashboard/movimentacoes')}
+            className="flex items-center px-3 py-2.5 w-full rounded-lg hover:bg-green-800 transition-colors text-white"
+            title="Movimentações"
+          >
+            <div className="min-w-[24px] flex justify-center">
+              <FiClipboard size={20} /> 
+            </div>
+            <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Movimentações
+            </span>
+          </button>
+          
         </nav>
 
         <div className="p-3 border-t border-green-800 mt-auto">

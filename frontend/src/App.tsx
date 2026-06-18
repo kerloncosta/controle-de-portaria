@@ -4,10 +4,13 @@ import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 
 import { Employees } from './pages/Employees';
+import { Drivers } from './pages/Drivers';
+
 import { Manufacturers } from './pages/Manufacturer';
 import { VehicleModels } from './pages/VehicleModels';
-import { Drivers } from './pages/Drivers';
 import { Vehicles } from './pages/Vehicles';
+
+import { Movements } from './pages/Movements';
 
 export function App() {
   return (
@@ -24,10 +27,13 @@ export function App() {
           } />
           
           <Route path="funcionarios" element={<Employees />} />
+          <Route path="motoristas" element={<Drivers />} />
+
           <Route path="fabricantes" element={<Manufacturers />} />
           <Route path="modelos" element={<VehicleModels />} />
-          <Route path="motoristas" element={<Drivers />} />
           <Route path="veiculos" element={<Vehicles />} />
+          
+          <Route path="movimentacoes" element={<Movements />} />
         </Route>
 
         
