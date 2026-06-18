@@ -7,9 +7,12 @@ class DeleteDriverController {
     const { id } = request.params as { id: string };
     const driverService = new DeleteDriverService();
 
-    const driver = await driverService.execute({ id });
-
-    reply.send(driver);
+    try {
+      const driver = await driverService.execute({ id });
+      return reply.send(driver);
+    } catch (error: any) {
+      return reply.status(400).send({ error: error.message });
+    }
   }
 }
 

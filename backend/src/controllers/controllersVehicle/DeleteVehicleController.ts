@@ -7,9 +7,12 @@ class DeleteVehicleController {
     const { id } = request.params as { id: string };
     const vehicleService = new DeleteVehicleService();
 
-    const vehicle = await vehicleService.execute({ id });
-
-    reply.send(vehicle);
+    try {
+      const vehicle = await vehicleService.execute({ id });
+      return reply.send(vehicle);
+    } catch (error: any) {
+      return reply.status(400).send({ error: error.message });
+    }
   }
 }
 
