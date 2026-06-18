@@ -84,6 +84,9 @@ class CreateMovementService {
       });
 
       return createdMovement;
+      
+    }, {
+      timeout: 15000
     });
 
     return movement

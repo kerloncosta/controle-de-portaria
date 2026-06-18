@@ -117,6 +117,8 @@ class UpdateMovementService {
       });
 
       return updatedMovement;
+    }, {
+      timeout: 15000
     });
 
     return movement

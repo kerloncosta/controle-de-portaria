@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, FormEvent } from 'react';
-import { FiCircle, FiCheckCircle, FiAlertCircle, FiFileText, FiTruck, FiUser } from 'react-icons/fi';
+import { FiTrash2, FiEdit, FiX, FiCircle, FiCheckCircle, FiAlertCircle, FiFileText, FiTruck, FiUser } from 'react-icons/fi';
 import { api } from '../../services/api';
 
 interface MovementProps {
@@ -11,6 +11,8 @@ interface MovementProps {
   driver: { name: string; cpf: string; cnh?: string };
   vehicle: { plate: string; color: string };
   employee?: { name: string };
+  driver_id: string;
+  vehicle_id: string;
 }
 
 interface VehicleProps { id: string; plate: string; color: string }
@@ -25,6 +27,13 @@ export function Movements() {
 
   const [isNewDriver, setIsNewDriver] = useState(false);
   const [isNewVehicle, setIsNewVehicle] = useState(false);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingMovement, setEditingMovement] = useState<MovementProps | null>(null);
+  const [editInvoice, setEditInvoice] = useState('');
+  const [editCargo, setEditCargo] = useState('');
+  const [editDriverId, setEditDriverId] = useState('');
+  const [editVehicleId, setEditVehicleId] = useState('');
 
   const invoiceRef = useRef<HTMLInputElement | null>(null);
   const cargoRef = useRef<HTMLInputElement | null>(null);
@@ -128,12 +137,54 @@ export function Movements() {
         set_current_exit_time: true
       });
       
-      alert("Saída registrada! Cancela liberada.");
+      alert("Saída registrada!");
       loadAllData();
     } catch (error: any) {
       alert(error.response?.data?.error || "Erro ao registrar saída.");
     }
   }
+
+  async function handleDeleteMovement(id: string) {
+    if (!window.confirm("ATENÇÃO: Deseja realmente excluir permanentemente este registro de movimentação?")) return;
+    try {
+      await api.delete(`/movement/delete/${id}`);
+      alert("Registro removido com sucesso!");
+      loadAllData();
+    } catch (error: any) {
+      alert(error.response?.data?.error || "Erro ao deletar registro.");
+    }
+  }
+
+  function openEditModal(movement: MovementProps) {
+    setEditingMovement(movement);
+    setEditInvoice(movement.invoice_number || '');
+    setEditCargo(movement.cargo_description || '');
+    setEditDriverId(movement.driver_id);
+    setEditVehicleId(movement.vehicle_id);
+    setIsEditModalOpen(true);
+  }
+
+  async function handleSaveEdit(event: FormEvent) {
+    event.preventDefault();
+    if (!editingMovement) return;
+
+    try {
+      await api.put(`/movement/update/${editingMovement.id}`, {
+        invoice_number: editInvoice || null,
+        cargo_description: editCargo || null,
+        driver_id: editDriverId,
+        vehicle_id: editVehicleId
+      });
+
+      alert("Movimentação atualizada com sucesso!");
+      setIsEditModalOpen(false);
+      loadAllData();
+    } catch (error: any) {
+      alert(error.response?.data?.error || "Erro ao salvar alterações.");
+    }
+  }
+
+
 
   const vehiclesInYard = movements.filter(m => !m.exit_time);
   const historicalMovements = movements.filter(m => m.exit_time);
@@ -238,7 +289,10 @@ export function Movements() {
                   <div>
                     <div className="flex justify-between items-start mb-2">
                       <span className="text-lg font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded tracking-wide">{m.vehicle?.plate}</span>
-                      <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-2 py-1 rounded-full uppercase">No Pátio</span>
+                        <div className="flex gap-1">
+                          <button onClick={() => openEditModal(m)} className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors" title="Editar informações"><FiEdit size={16} /></button>
+                          <button onClick={() => handleDeleteMovement(m.id)} className="p-1.5 text-gray-400 hover:text-red-600 transition-colors" title="Excluir entrada"><FiTrash2 size={16} /></button>
+                      </div>
                     </div>
                     <p className="text-sm text-gray-700 font-semibold mb-1"><span className="text-gray-400 font-normal">Motorista:</span> {m.driver?.name}</p>
                     {m.cargo_description && <p className="text-xs text-gray-500 italic flex items-center gap-1 mt-1"><FiFileText /> {m.cargo_description}</p>}
@@ -268,7 +322,8 @@ export function Movements() {
                   <th className="p-4">Motorista</th>
                   <th className="p-4">Entrada</th>
                   <th className="p-4">Saída</th>
-                  <th className="p-4">Operador</th>
+                  <th className='p-4'>Operador</th>
+                  <th className="p-4 text-center">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 font-medium">
@@ -279,6 +334,10 @@ export function Movements() {
                     <td className="p-4 text-xs text-gray-500">{new Date(m.entry_time).toLocaleString('pt-BR')}</td>
                     <td className="p-4 text-xs text-gray-500">{m.exit_time ? new Date(m.exit_time).toLocaleString('pt-BR') : '-'}</td>
                     <td className="p-4 text-xs text-gray-400 italic">{m.employee?.name || 'Sistema'}</td>
+                    <td className="p-4 flex items-center justify-center gap-3">
+                      <button onClick={() => openEditModal(m)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Editar registro"><FiEdit size={15} /></button>
+                      <button onClick={() => handleDeleteMovement(m.id)} className="text-gray-400 hover:text-red-600 transition-colors" title="Excluir histórico"><FiTrash2 size={15} /></button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -287,6 +346,53 @@ export function Movements() {
         </section>
 
       </main>
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 border border-gray-100 animate-scaleUp">
+            <div className="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+              <h3 className="text-md font-bold text-green-950 uppercase tracking-wider flex items-center gap-2">
+                <FiEdit className="text-green-700" /> Editar Registro de Movimentação
+              </h3>
+              <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600"><FiX size={20} /></button>
+            </div>
+
+            <form onSubmit={handleSaveEdit} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Número da Nota Fiscal:</label>
+                <input type="text" value={editInvoice} onChange={(e) => setEditInvoice(e.target.value)} className="p-2.5 border border-gray-300 rounded-lg text-sm bg-gray-50" />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Descrição do Carregamento:</label>
+                <input type="text" value={editCargo} onChange={(e) => setEditCargo(e.target.value)} className="p-2.5 border border-gray-300 rounded-lg text-sm bg-gray-50" />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Alterar Condutor / Motorista:</label>
+                <select value={editDriverId} onChange={(e) => setEditDriverId(e.target.value)} className="p-2.5 border border-gray-300 rounded-lg text-sm bg-gray-50 h-[42px]" required>
+                  {drivers.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Alterar Veículo:</label>
+                <select value={editVehicleId} onChange={(e) => setEditVehicleId(e.target.value)} className="p-2.5 border border-gray-300 rounded-lg text-sm bg-gray-50 h-[42px]" required>
+                  {vehicles.map(v => <option key={v.id} value={v.id}>{v.plate} ({v.color})</option>)}
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-2 border-t border-gray-100 pt-4">
+                <button type="button" onClick={() => setIsEditModalOpen(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                  Cancelar
+                </button>
+                <button type="submit" className="px-5 py-2 text-xs font-bold uppercase tracking-wider text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors shadow-sm">
+                  Salvar Alterações
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
