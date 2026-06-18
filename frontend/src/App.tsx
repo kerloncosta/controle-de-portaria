@@ -7,6 +7,7 @@ import { Employees } from './pages/Employees';
 import { Manufacturers } from './pages/Manufacturer';
 import { VehicleModels } from './pages/VehicleModels';
 import { Drivers } from './pages/Drivers';
+import { Vehicles } from './pages/Vehicles';
 
 export function App() {
   return (
@@ -26,6 +27,7 @@ export function App() {
           <Route path="fabricantes" element={<Manufacturers />} />
           <Route path="modelos" element={<VehicleModels />} />
           <Route path="motoristas" element={<Drivers />} />
+          <Route path="veiculos" element={<Vehicles />} />
         </Route>
 
         

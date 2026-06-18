@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { FiUsers, FiLogOut, FiTruck, FiLayers, FiHome } from 'react-icons/fi';
+import { FiUsers, FiLogOut, FiTruck, FiLayers, FiHome, FiSettings, FiBriefcase } from 'react-icons/fi';
 
 export function Dashboard() {
   const navigate = useNavigate();
@@ -38,10 +38,23 @@ export function Dashboard() {
             title="Funcionários"
           >
             <div className="min-w-[24px] flex justify-center">
-              <FiUsers size={20} />
+              <FiBriefcase size={20} />
             </div>
             <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Funcionários
+            </span>
+          </button>
+
+          <button 
+            onClick={() => navigate('/dashboard/motoristas')}
+            className="flex items-center px-3 py-2.5 w-full rounded-lg hover:bg-green-800 transition-colors"
+            title="Motoristas"
+          >
+            <div className="min-w-[24px] flex justify-center">
+              <FiUsers size={20} /> 
+            </div>
+            <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Motoristas
             </span>
           </button>
 
@@ -51,7 +64,7 @@ export function Dashboard() {
             title="Fabricantes"
           >
             <div className="min-w-[24px] flex justify-center">
-              <FiTruck size={20} />
+              <FiSettings size={20} />
             </div>
             <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Fabricantes
@@ -69,18 +82,18 @@ export function Dashboard() {
             <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Modelos
             </span>
-          </button>
+          </button>  
 
           <button 
-            onClick={() => navigate('/dashboard/motoristas')}
+            onClick={() => navigate('/dashboard/veiculos')}
             className="flex items-center px-3 py-2.5 w-full rounded-lg hover:bg-green-800 transition-colors"
-            title="Motoristas"
+            title="Veículos"
           >
             <div className="min-w-[24px] flex justify-center">
-              <FiUsers size={20} /> 
+              <FiTruck size={20} /> 
             </div>
             <span className="ml-4 text-sm font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              Motoristas
+              Veículos
             </span>
           </button>
         </nav>

@@ -103,11 +103,19 @@ export function Drivers() {
     if (!window.confirm("Tem certeza que deseja excluir este motorista?")) return;
 
     try {
-      await api.delete(`/driver/delete/${id}`);
-      loadDrivers();
-    } catch (error) {
+      await api.delete(`/driver/delete/${id}`); 
+      
+      alert("Motorista excluído com sucesso.");
+      loadDrivers(); 
+    } catch (error: any) {
       console.error("Erro ao deletar motorista:", error);
-      alert("Não foi possível deletar. Verifique a conexão.");
+
+      
+      if (error.response && error.response.data && error.response.data.error) {
+        alert(error.response.data.error); 
+      } else {
+        alert("Não foi possível excluir o motorista.");
+      }
     }
   }
 
