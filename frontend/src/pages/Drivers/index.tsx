@@ -3,6 +3,7 @@ import { FiTrash2, FiEdit2, FiSearch } from 'react-icons/fi';
 import { api } from '../../services/api';
 import { validateCpfFormat, validateCnhFormat } from '../../Utils/validators';
 import { maskCpf } from '../../Utils/masks'; 
+import { getExpirationBadgeColor } from '../../Utils/colors';
 
 interface DriverProps {
   id: string;
@@ -45,27 +46,27 @@ export function Drivers() {
     const cpf = rawCpf ? rawCpf.replace(/\D/g, '') : '';
     const cnh = rawCnh ? rawCnh.replace(/\D/g, '') : '';
     
-    if (!name || !cpf || !cnh || !cnh_expiration) {
-      alert("Todos os campos são obrigatórios.");
+    if (!editingId && (!name || !cpf || !cnh || !cnh_expiration)) {
+      alert("Todos os campos são obrigatórios para cadastrar um novo motorista.");
       return;
     }
 
-    if (!validateCpfFormat(cpf)) {
+    if (cpf && !validateCpfFormat(cpf)) {
       alert("Por favor, digite um CPF válido.");
       return;
     }
 
-    if (!validateCnhFormat(cnh)) {
+    if (cnh && !validateCnhFormat(cnh)) {
       alert("Por favor, digite uma CNH válida.");
       return;
     }
     
     try {
       const payload = {
-        name,
-        cpf,
-        cnh,
-        cnh_expiration: new Date(cnh_expiration).toISOString(), // Formata para o Back-end
+        name: name || undefined,
+        cpf: cpf || undefined,
+        cnh: cnh || undefined,
+        cnh_expiration: cnh_expiration ? new Date(cnh_expiration).toISOString() : undefined,
       };
 
       if (editingId) {
@@ -117,7 +118,6 @@ export function Drivers() {
     if (cpfRef.current) cpfRef.current.value = maskCpf(driver.cpf);
     if (cnhRef.current) cnhRef.current.value = driver.cnh;
     
-    // O input do tipo 'date' espera o formato YYYY-MM-DD
     if (cnhExpRef.current && driver.cnh_expiration) {
       const formattedDate = new Date(driver.cnh_expiration).toISOString().split('T')[0];
       cnhExpRef.current.value = formattedDate;
@@ -146,7 +146,28 @@ export function Drivers() {
     }
   }
 
-  // Função simples para formatar a data na listagem visual
+  async function handleFindByCnh() {
+    const cnhTyped = cnhRef.current?.value;
+    const cleanCnh = cnhTyped ? cnhTyped.replace(/\D/g, '') : '';
+
+    if (!cleanCnh || !validateCnhFormat(cleanCnh)) {
+      alert("Digite uma CNH válida para buscar.");
+      return;
+    }
+
+    try {
+      const response = await api.get(`/driver/find-by-cnh/${cleanCnh}`);
+      handleEditDriverClick(response.data);
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.error) {
+        alert("CNH não encontrada no sistema.");
+      } else {
+        alert("Erro na conexão ao buscar a CNH.");
+      }
+      setEditingId(null);
+    }
+  }
+
   const formatDateBR = (isoDate: string) => {
     if (!isoDate) return '';
     return new Date(isoDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
@@ -199,24 +220,36 @@ export function Drivers() {
 
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-bold text-green-900 uppercase tracking-wider">Número da CNH:</label>
-              <input 
-                type="text"  
-                placeholder="Apenas números"  
-                maxLength={11}
-                className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm"  
-                ref={cnhRef}
-                onChange={(e) => { e.target.value = e.target.value.replace(/\D/g, '') }}
-              />
+              <div className="flex gap-2">
+                <input 
+                  type="text"  
+                  placeholder="Apenas números"  
+                  maxLength={11}
+                  className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm"  
+                  ref={cnhRef}
+                  onChange={(e) => { e.target.value = e.target.value.replace(/\D/g, '') }}
+                />
+                <button 
+                  type="button"
+                  onClick={handleFindByCnh}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-lg font-bold transition-colors shadow-md flex items-center justify-center shrink-0"
+                  title="Buscar por CNH"
+                >
+                  <FiSearch size={18} />
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5 w-full md:w-1/2 md:pr-2">
-            <label className="text-[11px] font-bold text-green-900 uppercase tracking-wider">Validade da CNH:</label>
-            <input 
-              type="date"  
-              className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm"  
-              ref={cnhExpRef}
-            />
+          <div className="flex justify-center w-full">
+            <div className="flex flex-col gap-1.5 w-full md:w-1/2">
+              <label className="text-[11px] font-bold text-green-900 uppercase tracking-wider md:text-center">Validade da CNH:</label>
+              <input 
+                type="date"  
+                className="w-full p-3 border border-green-300 rounded-lg focus:outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600 transition-colors text-gray-700 bg-gray-50 text-sm text-center"  
+                ref={cnhExpRef}
+              />
+            </div>
           </div>
 
           <div className="flex gap-3 mt-2">
@@ -263,7 +296,7 @@ export function Drivers() {
 
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Validade</span>
-                  <span className="text-blue-800 bg-blue-100 px-2 py-1 rounded-md text-[11px] font-bold tracking-wider w-max">
+                  <span className={`${getExpirationBadgeColor(driver.cnh_expiration)} px-2 py-1 rounded-md text-[11px] font-bold tracking-wider w-max transition-colors`}>
                     {formatDateBR(driver.cnh_expiration)}
                   </span>
                 </div>

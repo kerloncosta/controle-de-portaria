@@ -1,6 +1,6 @@
 import type {FastifyRequest, FastifyReply} from 'fastify';
 import { UpdateDriverService } from '../../services/servicesDriver/UpdateDriverService.js';
-import { validateCpfFormat, validatePassword } from '../../utils/validators.js';
+import { validateCpfFormat, validateCnhFormat } from '../../utils/validators.js';
 
 class UpdateDriverController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
@@ -11,8 +11,8 @@ class UpdateDriverController {
       return reply.status(400).send({ error: "O CPF deve conter exatamente 11 números e deve ser válido." });
     }
 
-    if (cnh && !validatePassword(cnh)) {
-      return reply.status(400).send({ error: "A CNH deve ter no mínimo 6 caracteres, 1 número e 1 letra maiúscula." });
+    if (cnh && !validateCnhFormat(cnh)) {
+      return reply.status(400).send({ error: "Para atualizar um motorista precisa informar uma CNH válida." });
     }
 
     if (cnh_expiration) {

@@ -14,14 +14,24 @@ class CreateDriverService {
       throw new Error("Preencha todos os campos obrigatórios");
     }
 
-    const existingDriver = await prisma.driver.findUnique({
+    const existingDriverCPF = await prisma.driver.findUnique({
       where: {
         cpf,
       }
     });
 
-    if (existingDriver) {
+    if (existingDriverCPF) {
       throw new Error("Já existe um motorista cadastrado com esse CPF");
+    }
+
+    const existingDriverCNH = await prisma.driver.findUnique({
+      where: {
+        cnh,
+      }
+    });
+
+    if (existingDriverCNH) {
+      throw new Error("Já existe um motorista cadastrado com essa CNH");
     }
 
     const expirationDate = new Date(cnh_expiration);
