@@ -61,12 +61,12 @@ export function Movements() {
       const [movementsRes, vehiclesRes, driversRes, modelsRes] = await Promise.all([
         api.get('/movement/list'),
         api.get('/vehicle/list'),
-        api.get('/driver/list'),
+        api.get('/driver/list?page=1&limit=100'),
         api.get('/vehicle-model/list')
       ]);
       setMovements(movementsRes.data);
       setVehicles(vehiclesRes.data);
-      setDrivers(driversRes.data);
+      setDrivers(driversRes.data.data);
       setModels(modelsRes.data);
     } catch (error) {
       console.error("Erro ao carregar dados da portaria:", error);

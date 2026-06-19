@@ -46,12 +46,12 @@ export function Vehicles() {
       const [vehiclesRes, modelsRes, driversRes] = await Promise.all([
         api.get('/vehicle/list'),
         api.get('/vehicle-model/list'),
-        api.get('/driver/list')
+        api.get('/driver/list?page=1&limit=100')
       ]);
 
       setVehicles(vehiclesRes.data);
       setModels(modelsRes.data);
-      setDrivers(driversRes.data);
+      setDrivers(driversRes.data.data);
     } catch (error) {
       console.error("Erro ao carregar dados iniciais:", error);
     }
