@@ -28,8 +28,8 @@ export function Drivers() {
 
   async function loadDrivers() {
     try {
-      const response = await api.get('/driver/list');
-      setDrivers(response.data);
+      const response = await api.get('/driver/list?page=1&limit=100');
+      setDrivers(response.data.data);
     } catch (error) {
       console.error("Erro ao carregar motoristas:", error);
     }

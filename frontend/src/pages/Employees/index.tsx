@@ -25,8 +25,13 @@ export function Employees() {
   }, [])
 
   async function loadEmployees() {
-    const response = await api.get('/employee/list')
-    setEmployees(response.data)
+
+    try{
+      const response = await api.get('/employee/list?page=1&limit=100')
+      setEmployees(response.data.data)
+    }catch (error) {
+      console.error("Erro ao carregar Funcionarios:", error);
+    }
   }
 
   async function handleCreateEmployee(event: FormEvent) {
