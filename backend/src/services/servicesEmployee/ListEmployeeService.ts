@@ -13,11 +13,11 @@ class ListEmployeeService {
     const whereCondition = search ? {name: {
       contains: search, mode: 'insensitive' as const}} : {};
 
-    const totalEmloyees = await prisma.driver.count({
+    const totalEmloyees = await prisma.employee.count({
       where: whereCondition
     });
 
-    const employees = await prisma.driver.findMany({
+    const employees = await prisma.employee.findMany({
       where: whereCondition,
       skip: skip,
       take: limit,
