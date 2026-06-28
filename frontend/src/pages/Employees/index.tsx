@@ -14,6 +14,7 @@ interface EmployeeProps {
 export function Employees() {
   const [employees, setEmployees] = useState<EmployeeProps[]>([])
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const nameRef = useRef<HTMLInputElement | null>(null)
   const cpfRef = useRef<HTMLInputElement | null>(null)
@@ -24,11 +25,11 @@ export function Employees() {
     loadEmployees();
   }, [])
 
-  async function loadEmployees() {
-
+  async function loadEmployees(page = 1, search = "") {
     try{
-      const response = await api.get('/employee/list?page=1&limit=100')
+      const response = await api.get(`/employee/list?page=${page}&limit=10&search=${search}`)
       setEmployees(response.data.data)
+      setCurrentPage(response.data.page);
     }catch (error) {
       console.error("Erro ao carregar Funcionarios:", error);
     }
@@ -79,11 +80,10 @@ export function Employees() {
         await api.put(`/employee/update/${editingId}`, payload);
         alert("Funcionário atualizado com sucesso.");
       } else {
-        const response = await api.post('/employee/add', payload);
-        setEmployees(allEmployees => [...allEmployees, response.data]);
-        console.log("Salvo com sucesso:", response.data); 
+        await api.post('/employee/add', payload);
+        alert("Funcionário cadastrado com sucesso!");
       }
-  
+
       loadEmployees();
       handleCancel(); 
 
@@ -247,7 +247,7 @@ export function Employees() {
         </form>
 
         <section className="flex flex-col gap-3 mt-6">
-          {employees.filter((employee) => employee.id !== editingId).map((employee) => (
+          {employees.map((employee) => (
             <article 
               key={employee.id}
               className="w-full bg-white p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-sm border border-gray-100 hover:shadow-md transition-all gap-4 sm:gap-0"
@@ -297,6 +297,35 @@ export function Employees() {
           ))}
         </section>
 
+        <div className="flex justify-between items-center mt-6">
+          <button
+            disabled={currentPage <= 1}
+            onClick={() => loadEmployees(currentPage - 1)}
+            className={`px-4 py-2 rounded-lg transition-all font-semibold ${
+              currentPage <= 1
+                ? "bg-gray-100 text-gray-300 cursor-not-allowed"
+                : "bg-green-700 text-white hover:bg-green-800 shadow-sm"
+            }`}
+          >
+            Anterior
+          </button>
+
+          <span className="text-sm font-bold text-gray-500 uppercase tracking-wider">
+            Página {currentPage}
+          </span>
+
+          <button
+            disabled={employees.length < 10}
+            onClick={() => loadEmployees(currentPage + 1)}
+            className={`px-4 py-2 rounded-lg transition-all font-semibold ${
+              employees.length < 10
+                ? "bg-gray-100 text-gray-300 cursor-not-allowed"
+                : "bg-green-700 text-white hover:bg-green-800 shadow-sm"
+            }`}
+          >
+            Próximo
+          </button>
+        </div>
       </main>
     </div>
   );

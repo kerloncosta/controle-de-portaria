@@ -16,6 +16,7 @@ interface DriverProps {
 export function Drivers() {
   const [drivers, setDrivers] = useState<DriverProps[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const nameRef = useRef<HTMLInputElement | null>(null);
   const cpfRef = useRef<HTMLInputElement | null>(null);
@@ -26,10 +27,11 @@ export function Drivers() {
     loadDrivers();
   }, []);
 
-  async function loadDrivers() {
+  async function loadDrivers(page = 1, search = "") {
     try {
-      const response = await api.get('/driver/list?page=1&limit=100');
+      const response = await api.get(`/driver/list?page=${page}&limit=10&search=${search}`);
       setDrivers(response.data.data);
+      setCurrentPage(response.data.page);
     } catch (error) {
       console.error("Erro ao carregar motoristas:", error);
     }
@@ -73,11 +75,10 @@ export function Drivers() {
         await api.put(`/driver/update/${editingId}`, payload);
         alert("Motorista atualizado com sucesso.");
       } else {
-        const response = await api.post('/driver/add', payload);
-        setDrivers(allDrivers => [...allDrivers, response.data]);
+        await api.post('/driver/add', payload);
         alert("Motorista cadastrado com sucesso!");
       }
-  
+
       loadDrivers();
       handleCancel(); 
 
@@ -280,7 +281,7 @@ export function Drivers() {
         </form>
 
         <section className="flex flex-col gap-3 mt-6">
-          {drivers.filter((driver) => driver.id !== editingId).map((driver) => (
+          {drivers.map((driver) => (
             <article 
               key={driver.id}
               className="w-full bg-white p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center shadow-sm border border-gray-100 hover:shadow-md transition-all gap-4 sm:gap-0"
@@ -334,6 +335,35 @@ export function Drivers() {
           ))}
         </section>
 
+        <div className="flex justify-between items-center mt-6">
+          <button 
+            disabled={currentPage <= 1} 
+            onClick={() => loadDrivers(currentPage - 1)}
+            className={`px-4 py-2 rounded-lg transition-all font-semibold ${
+              currentPage <= 1 
+                ? "bg-gray-100 text-gray-300 cursor-not-allowed" 
+                : "bg-green-700 text-white hover:bg-green-800 shadow-sm"
+            }`}
+          >
+            Anterior
+          </button>
+
+          <span className="text-sm font-bold text-gray-500 uppercase tracking-wider">
+            Página {currentPage}
+          </span>
+
+          <button 
+            disabled={drivers.length < 10} 
+            onClick={() => loadDrivers(currentPage + 1)}
+            className={`px-4 py-2 rounded-lg transition-all font-semibold ${
+              drivers.length < 10
+                ? "bg-gray-100 text-gray-300 cursor-not-allowed" 
+                : "bg-green-700 text-white hover:bg-green-800 shadow-sm"
+            }`}
+          >
+            Próximo
+          </button>
+        </div>
       </main>
     </div>
   );
