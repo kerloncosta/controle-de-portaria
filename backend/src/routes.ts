@@ -40,12 +40,22 @@ import { ListMovementController } from "./controllers/controllersMovement/ListMo
 import { DeleteMovementController } from "./controllers/controllersMovement/DeleteMovementController.js";
 import { UpdateMovementController } from "./controllers/controllersMovement/UpdateMovementController.js";
 
+// Importing controllers for Auth
+import { AuthController } from "./controllers/controllersAuth/AuthController.js";
+import { authMiddleware } from "./utils/authMiddleware.js";
+
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
 
   // Test route ---------------------------------------------------
 
   fastify.get("/test", async (request: FastifyRequest, reply: FastifyReply) => {
     return { hello: "world" };
+  });
+
+  // Auth route ---------------------------------------------------
+
+  fastify.post("/auth/login", async (request: FastifyRequest, reply: FastifyReply) => {
+    return new AuthController().handleLogin(request, reply);
   });
 
   // Employee routes ---------------------------------------------------
@@ -156,9 +166,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
   // Movement routes ------------------------------------------------
   
-  fastify.post("/movement/add", async (request: FastifyRequest, reply: FastifyReply)=>{
-    return new CreateMovementController().handle(request, reply);
-  });
+  fastify.post("/movement/add", { preHandler: [authMiddleware] }, async (request: FastifyRequest, reply: FastifyReply) => {
+  return new CreateMovementController().handle(request, reply);
+});
 
   fastify.delete("/movement/delete/:id", async (request: FastifyRequest, reply: FastifyReply) => {
     return new DeleteMovementController().handle(request, reply);

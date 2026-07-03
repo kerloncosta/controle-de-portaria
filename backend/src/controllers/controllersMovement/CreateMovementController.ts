@@ -3,7 +3,6 @@ import { CreateMovementService } from '../../services/servicesMovement/CreateMov
 import { validateCnhFormat, validateCpfFormat, validatePlateFormat } from '../../utils/validators.js';
 
 interface MovementBody {
-  employee_id: string;
   invoice_number?: string | undefined;
   cargo_description?: string | undefined;
   entry_time?: string | Date | undefined;
@@ -27,11 +26,9 @@ interface MovementBody {
 class CreateMovementController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { employee_id, invoice_number, cargo_description, entry_time, driver_id, new_driver, vehicle_id, new_vehicle } = request.body as MovementBody; 
+      const {invoice_number, cargo_description, entry_time, driver_id, new_driver, vehicle_id, new_vehicle } = request.body as MovementBody; 
 
-      if (!employee_id) {
-        throw new Error("O ID do funcionário é obrigatório.");
-      }
+      const employee_id = (request as any).user.id;
 
       if (!driver_id && !new_driver) {
         throw new Error("Você deve informar um motorista existente ou os dados para um novo cadastro.");

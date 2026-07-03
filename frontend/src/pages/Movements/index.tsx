@@ -49,9 +49,6 @@ export function Movements() {
   const newVehicleColorRef = useRef<HTMLInputElement | null>(null);
   const newVehicleModelRef = useRef<HTMLSelectElement | null>(null);
 
-
-  const MOCK_EMPLOYEE_ID = "00332f8c-fcff-42cc-b8b8-5bf959fd472d";
-
   useEffect(() => {
     loadAllData();
   }, []);
@@ -89,7 +86,6 @@ export function Movements() {
     const newVehicleModel = newVehicleModelRef.current?.value;
 
     const payload: any = {
-      employee_id: MOCK_EMPLOYEE_ID,
       invoice_number: invoice || undefined,
       cargo_description: cargo || undefined,
     };
@@ -116,7 +112,12 @@ export function Movements() {
     }
 
     try {
-      await api.post('/movement/add', payload);
+      await api.post('/movement/add', payload,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
       alert("Entrada autorizada e registrada com sucesso!");
       
       setIsNewDriver(false);

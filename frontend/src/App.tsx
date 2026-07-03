@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { PrivateRoutes } from './Utils/privateRoutes';
 
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
@@ -11,13 +12,20 @@ import { VehicleModels } from './pages/VehicleModels';
 import { Vehicles } from './pages/Vehicles';
 
 import { Movements } from './pages/Movements';
+import { MovementsOperator } from './pages/MovementsOperator';
+
 
 export function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="/dashboard" element={
+          <PrivateRoutes allowedRoles={[2]}>
+            <Dashboard />
+          </PrivateRoutes>
+        }>
+        
           
           <Route index element={
             <div className="p-8">
@@ -35,6 +43,12 @@ export function App() {
           
           <Route path="movimentacoes" element={<Movements />} />
         </Route>
+
+        <Route path="/movementsOperator" element={
+          <PrivateRoutes allowedRoles={[1, 2]}>
+            <MovementsOperator/>
+          </PrivateRoutes>
+        } />
 
         
         <Route path="*" element={<Navigate to="/" />} />
