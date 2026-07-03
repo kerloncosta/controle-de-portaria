@@ -12,3 +12,9 @@ dist/
 .vscode/
 .DS_Store
 /src/generated/prisma
+
+# Pasta de backups (corrigido e abrangente)
+backups/
+*.sql
+*.csv
+*.dump
