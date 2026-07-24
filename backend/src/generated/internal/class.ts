@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Users\\kerlo\\Downloads\\controle_de_portaria\\backend\\src\\generated",
+      "value": "C:\\Users\\kerlon.costa\\Desktop\\controle-de-portaria\\backend\\src\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\kerlo\\Downloads\\controle_de_portaria\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\kerlon.costa\\Desktop\\controle-de-portaria\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../prisma",
